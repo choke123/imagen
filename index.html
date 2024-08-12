@@ -1,37 +1,90 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-        <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-        <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-    </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR with Three.js</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.rawgit.com/AR-js-org/AR.js/master/three.js/build/ar.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
 
-    <body style="margin: 0; overflow: hidden;">
-        <a-scene
-            renderer="logarithmicDepthBuffer: true;"
-            embedded
-            loading-screen="enabled: false;"
-            arjs="sourceType: webcam; debugUIEnabled: false;"
-        >
-            <a-assets>
-                <a-asset-item
-                    id="animated-asset"
-                    src="assets/asset.glb"
-                ></a-asset-item>
-            </a-assets>
+    <div style="position: absolute; top: 10px; left: 10px; z-index: 100; color: white;">
+        <p>Move your device to find the 3D object at the specified GPS location.</p>
+    </div>
 
-                <a-entity
-                    look-at="[gps-camera]"
-                    animation-mixer="loop: repeat"
-                    gltf-model="#animated-asset"
-                    scale="0.30 0.30 0.30"
-                    gps-entity-place="latitude:7.8818855; longitude: -72.5055268;"
-                ></a-entity>
+    <script>
+        // Create scene, camera, and renderer
+        let scene = new THREE.Scene();
+        let camera = new THREE.Camera();
+        scene.add(camera);
 
-            <a-camera gps-camera rotation-reader></a-camera>
-        </a-scene>
-    </body>
+        let renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.domElement.style.position = 'absolute';
+        renderer.domElement.style.top = '0px';
+        renderer.domElement.style.left = '0px';
+        document.body.appendChild(renderer.domElement);
+
+        // Initialize AR.js with GPS support
+        let arToolkitSource = new THREEx.ArToolkitSource({
+            sourceType: 'webcam',
+        });
+
+        arToolkitSource.init(function onReady() {
+            onResize();
+        });
+
+        window.addEventListener('resize', function() {
+            onResize();
+        });
+
+        function onResize() {
+            arToolkitSource.onResize();
+            arToolkitSource.copySizeTo(renderer.domElement);
+        }
+
+        let arToolkitContext = new THREEx.ArToolkitContext({
+            cameraParametersUrl: 'https://cdn.rawgit.com/AR-js-org/AR.js/master/data/camera_para.dat',
+            detectionMode: 'mono',
+            canvasWidth: 80 * 3,
+            canvasHeight: 60 * 3,
+        });
+
+        arToolkitContext.init(function onCompleted() {
+            camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+        });
+
+        // Create GPS entity
+        let gpsEntity = new THREEx.ArGpsEntity({
+            latitude: 7.8818855,
+            longitude: -72.5055268,
+        });
+
+        let markerRoot = new THREE.Group();
+        scene.add(markerRoot);
+        gpsEntity.setObject3D(markerRoot);
+
+        // Create a 3D object (a sphere in this case)
+        let geometry = new THREE.SphereGeometry(0.5, 32, 32);
+        let material = new THREE.MeshNormalMaterial();
+        let mesh = new THREE.Mesh(geometry, material);
+        mesh.position.y = 2; // Set the height of the object (2 meters above the ground)
+        markerRoot.add(mesh);
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (arToolkitSource.ready) {
+                arToolkitContext.update(arToolkitSource.domElement);
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
 </html>
+
