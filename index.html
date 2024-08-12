@@ -9,70 +9,60 @@
 </head>
 <body style="margin: 0; overflow: hidden;">
 
-    <div style="position: absolute; top: 10px; left: 10px; z-index: 100; color: white;">
-        <p>Move your device to find the 3D object at the specified GPS location.</p>
-    </div>
-
     <script>
-        // Create scene, camera, and renderer
+        // Crear la escena, cámara y renderizador
         let scene = new THREE.Scene();
         let camera = new THREE.Camera();
         scene.add(camera);
 
         let renderer = new THREE.WebGLRenderer({ alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.domElement.style.position = 'absolute';
-        renderer.domElement.style.top = '0px';
-        renderer.domElement.style.left = '0px';
         document.body.appendChild(renderer.domElement);
 
-        // Initialize AR.js with GPS support
-        let arToolkitSource = new THREEx.ArToolkitSource({
-            sourceType: 'webcam',
+        // Configurar AR.js
+        let arToolkitSource = new ARjs.Source({
+            sourceType: 'webcam'
         });
 
-        arToolkitSource.init(function onReady() {
-            onResize();
+        arToolkitSource.init(function onReady(){
+            resize();
         });
 
-        window.addEventListener('resize', function() {
-            onResize();
+        window.addEventListener('resize', function(){
+            resize();
         });
 
-        function onResize() {
-            arToolkitSource.onResize();
-            arToolkitSource.copySizeTo(renderer.domElement);
+        function resize(){
+            arToolkitSource.onResizeElement();
+            arToolkitSource.copyElementSizeTo(renderer.domElement);
+            if (arToolkitContext.arController !== null) {
+                arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
+            }
         }
 
-        let arToolkitContext = new THREEx.ArToolkitContext({
+        let arToolkitContext = new ARjs.Context({
             cameraParametersUrl: 'https://cdn.rawgit.com/AR-js-org/AR.js/master/data/camera_para.dat',
-            detectionMode: 'mono',
-            canvasWidth: 80 * 3,
-            canvasHeight: 60 * 3,
+            detectionMode: 'mono'
         });
 
-        arToolkitContext.init(function onCompleted() {
+        arToolkitContext.init(function onCompleted(){
             camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
         });
 
-        // Create GPS entity
-        let gpsEntity = new THREEx.ArGpsEntity({
-            latitude: 7.8818855,
-            longitude: -72.5055268,
-        });
-
+        // Crear el marcador GPS (coordenadas)
         let markerRoot = new THREE.Group();
         scene.add(markerRoot);
-        gpsEntity.setObject3D(markerRoot);
 
-        // Create a 3D object (a sphere in this case)
+        let geoLocation = { latitude: 7.8818855, longitude: -72.5055268 };
+
+        // Crear un objeto 3D (balón) en el marcador
         let geometry = new THREE.SphereGeometry(0.5, 32, 32);
         let material = new THREE.MeshNormalMaterial();
-        let mesh = new THREE.Mesh(geometry, material);
-        mesh.position.y = 2; // Set the height of the object (2 meters above the ground)
-        markerRoot.add(mesh);
+        let ball = new THREE.Mesh(geometry, material);
+        ball.position.y = 2; // Altura del objeto (2 metros)
+        markerRoot.add(ball);
 
-        // Animation loop
+        // Loop de animación
         function animate() {
             requestAnimationFrame(animate);
 
@@ -84,8 +74,10 @@
         }
 
         animate();
+
     </script>
 </body>
 </html>
+
 
 
