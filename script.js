@@ -24,7 +24,11 @@ function formatNumber(input) {
 }
 
 function calcularTotal() {
-
+const recaptchaResponse = grecaptcha.getResponse();
+    if (!recaptchaResponse) {
+        alert("Por favor, complete el reCAPTCHA para continuar.");
+        return; // Detener si el reCAPTCHA no está completado
+    }
     // Obtener los valores de los campos, y si están vacíos, tratarlos como 0
     let saldoEfectivo = parseInt(document.getElementById('saldoEfectivo').value.replace(/\./g, '').replace(',', '.')) || 0;
     let saldoSomos = parseFloat(document.getElementById('saldoSomos').value.replace(/\./g, '').replace(',', '.')) || 0;
