@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Cierre de Caja</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Formulario de Cierre de Caja</h2>
+    <form id="cierreForm">
+        <label for="odigoComercio">Código Comercio:</label>
+        <input type="text" id="odigoComercio" required>
+
+        <label for="saldoEfectivo">Saldo Efectivo:</label>
+        <input type="text" id="saldoEfectivo" required oninput="formatNumber(this)">
+
+        <label for="saldoSomos">Saldo Somos:</label>
+        <input type="text" id="saldoSomos" required oninput="formatNumber(this)">
+
+        <label for="cierreDiaAnterior">Cierre Día Anterior:</label>
+        <input type="text" id="cierreDiaAnterior" onclick="mostrarAlerta()" oninput="formatNumber(this)" placeholder="-10000 o 10000">
+
+        <label for="retirosTarjeta">Retiros Tarjeta:</label>
+        <input type="text" id="retirosTarjeta" required oninput="formatNumber(this)">
+
+        <label for="retirosST">Retiros ST:</label>
+        <input type="text" id="retirosST" required oninput="formatNumber(this)">
+
+        <label for="depositos">Depósitos:</label>
+        <input type="text" id="depositos" required oninput="formatNumber(this)">
+
+        <label for="recaudos">Recaudos:</label>
+        <input type="text" id="recaudos" required oninput="formatNumber(this)">
+
+        <label for="abonoTarjeta">Abono Tarjeta:</label>
+        <input type="text" id="abonoTarjeta" required oninput="formatNumber(this)">
+
+        <label for="abonoCredito">Abono Crédito:</label>
+        <input type="text" id="abonoCredito" required oninput="formatNumber(this)">
+
+        <label for="compensaciones">Compensaciones:</label>
+        <input type="text" id="compensaciones" required oninput="formatNumber(this)">
+
+        <button type="button" onclick="calcularTotales()">Calcular Totales</button>
+    </form>
+
+    <h3 id="resultados"></h3>
+
+    <script>
+        function formatNumber(input) {
+    // Reemplaza los puntos para manejar correctamente el número
+    let value = input.value.replace(/\./g, '').replace(',', '.');
+    
+    // Permitir el signo negativo al inicio
+    if (value.startsWith('-')) {
+        value = value.replace('-', ''); // Elimina temporalmente el signo para formatear el número
+
+        if (!isNaN(value) && value !== '') {
+            let formattedValue = new Intl.NumberFormat('es-CO').format(value);
+            input.value = `-${formattedValue}`; // Vuelve a agregar el signo negativo
+        } else {
+            input.value = '-'; // Si no hay valor después del signo, deja solo el signo
+        }
+    } else {
+        // Si el valor es positivo o vacío
+        if (!isNaN(value) && value !== '') {
+            input.value = new Intl.NumberFormat('es-CO').format(value);
+        } else {
+            input.value = ''; // Asegúrate de que no deje "-0" o algún valor inválido
+        }
+    }
+}
+
+function mostrarAlerta() {
+            Swal.fire({
+                title: "Información Importante",
+                text: "Recuerda poner el signo negativo si tienes saldo negativo.",
+                icon: "info",
+                confirmButtonText: "Entendido"
+            });
+        }
+
+        function calcularTotales() {
+            const saldoEfectivo = parseFloat(document.getElementById("saldoEfectivo").value.replace(/\./g, '').replace(',', '.')) || 0;
+            const saldoSomos = parseFloat(document.getElementById("saldoSomos").value.replace(/\./g, '').replace(',', '.')) || 0;
+            const cierreDiaAnterior = parseFloat(document.getElementById("cierreDiaAnterior").value.replace(/\./g, '').replace(',', '.')) || 0;
+            const retirosTarjeta = parseFloat(document.getElementById("retirosTarjeta").value.replace(/\./g, '').replace(',', '.')) || 0;
+            const retirosST = parseFloat(document.getElementById("retirosST").value.replace(/\./g, '').replace(',', '.')) || 0;
+            const depositos = parseFloat(document.getElementById("depositos").value.replace(/\./g, '').replace(',', '.')) || 0;
+            const recaudos = parseFloat(document.getElementById("recaudos").value.replace(/\./g, '').replace(',', '.')) || 0;
+            const abonoTarjeta = parseFloat(document.getElementById("abonoTarjeta").value.replace(/\./g, '').replace(',', '.')) || 0;
+            const abonoCredito = parseFloat(document.getElementById("abonoCredito").value.replace(/\./g, '').replace(',', '.')) || 0;
+            const compensaciones = parseFloat(document.getElementById("compensaciones").value.replace(/\./g, '').replace(',', '.')) || 0;
+
+            if (saldoEfectivo < 0 || saldoSomos < 0 || retirosTarjeta <0 || retirosST < 0 || depositos < 0 || recaudos < 0 || abonoTarjeta < 0 || abonoCredito < 0 ||compensaciones < 0) {
+        alert("Los valores no pueden ser negativos.");
+        return; // Detiene el proceso si hay un valor negativo  
+    }
+            const total = saldoEfectivo + saldoSomos + retirosTarjeta + retirosST + depositos + recaudos + abonoTarjeta + abonoCredito + compensaciones;
+            const descuadre = total - cierreDiaAnterior;
+
+            const resultados = {
+                total: total,
+                descuadre: descuadre
+            };
+
+            document.getElementById("resultados").innerText = `Total: ${new Intl.NumberFormat('es-CO').format(total)}\nDescuadre: ${new Intl.NumberFormat('es-CO').format(descuadre)}`;
+           
+          
+            // Generar JSON
+            const jsonData = JSON.stringify({
+                odigoComercio: document.getElementById("odigoComercio").value,
+                saldoEfectivo: saldoEfectivo,
+                saldoSomos: saldoSomos,
+                cierreDiaAnterior: cierreDiaAnterior,
+                retirosTarjeta: retirosTarjeta,
+                retirosST: retirosST,
+                depositos: depositos,
+                recaudos: recaudos,
+                abonoTarjeta: abonoTarjeta,
+                abonoCredito: abonoCredito,
+                compensaciones: compensaciones,
+                total: total,
+                descuadre: descuadre
+            }, null, 2); // Formato legible
+
+            console.log(jsonData); // Imprime el JSON en la consola
+        }
+       
+        
+    </script>
+</body>
+</html>

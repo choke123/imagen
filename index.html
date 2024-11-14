@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuadre de Caja</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/shepherd.js/dist/css/shepherd.css" />
+    <script src="https://unpkg.com/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script> <!-- Cambiado a una versión específica -->
+    <script src="https://unpkg.com/shepherd.js@8.0.0/dist/js/shepherd.min.js"></script> <!-- Versión específica -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6LeQC34qAAAAANNSWY6wRm4EM_D2heUviQTEOimO"></script>
+</head>
+</head>
+<body>
+
+    <div class="logo">
+        <img src="img/logo.jpg" alt="">
+        <br><br>
+    </div>
+    <div class="chat-box">
+        <div>
+            <h1 id="titulo">CIERRE MANUAL</h1>
+        </div>
+       
+        <form id="cuadreForm">
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="inlineRadio1">Cierre parcial</label>
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="P" value="P">
+                
+              </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="inlineRadio2"> Cierre total </label>
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="T" value="T">
+                
+              </div>
+            <div class="question">
+                <label for="codigoComercio">Código del comercio:</label>
+                <input type="text" id="codigoComercio" maxlength="5" placeholder="Código del comercio" required>
+            </div>
+            <div class="question">
+                <label for="saldoEfectivo">Saldo efectivo: <br> (efectivo que ceuntas del cierre total)</label>
+                <input type="text" id="saldoEfectivo" step="0.01" placeholder="Saldo efectivo" required oninput="formatNumber(this)">
+            </div>
+            <div class="question">
+                <label for="saldoSomos">Saldo somos:</label>
+                <input type="text" id="saldoSomos" step="0.01" placeholder="Saldo somos" required oninput="formatNumber(this)">
+            </div>
+            <div class="question">
+                <label for="cierreDiaAnterior">Saldo de cierre del día anterior:</label>
+                <input type="text" id="cierreDiaAnterior" step="0.01" placeholder="Saldo del día anterior"  onclick="mostrarAlerta()" required oninput="formatNumber(this)">
+            </div>
+            <div class="question">
+                <label for="retirosTarjeta">Retiros tarjeta:</label>
+                <input type="text" id="retirosTarjeta" step="0.01" placeholder="Retiros tarjeta" required oninput="formatNumber(this)">
+            </div>
+            <div class="question">
+                <label for="retirosST">Retiros sin tarjeta :</label>
+                <input type="text" id="retirosST" step="0.01" placeholder="Retiros ST" required oninput="formatNumber(this)">
+            </div>
+            <div class="question">
+                <label for="depositos">Depósitos:</label>
+                <input type="text" id="depositos" step="0.01" placeholder="Depósitos" required oninput="formatNumber(this)">
+            </div>
+            <div class="question">
+                <label for="recaudos">Recaudos:</label>
+                <input type="text" id="recaudos" step="0.01" placeholder="Recaudos" required oninput="formatNumber(this)">
+            </div>
+            <div class="question">
+                <label for="abonoTarjeta">Pago t credito:</label>
+                <input type="text" id="abonoTarjeta" step="0.01" placeholder="Pago t credito" required oninput="formatNumber(this)">
+                
+            </div>
+            <div class="question">
+                <label for="abonoCredito">Pago cartera:</label>
+                <input type="text" id="abonoCredito" step="0.01" placeholder="Abono crédito" required oninput="formatNumber(this)">
+            </div>
+            <div class="question">
+                <label for="compensaciones">Compensaciones:</label>
+                <input type="text" id="compensaciones" step="0.01" placeholder="Compensaciones" required oninput="formatNumber(this)">
+            </div>
+            
+            <div class="question">
+                <label for="fechaCierre">Fecha de Cierre:</label>
+                <input type="date" id="fechaCierre" required>
+            </div>
+            <div class="g-recaptcha" data-sitekey="6LeQC34qAAAAANNSWY6wRm4EM_D2heUviQTEOimO"></div>
+
+            <button type="button" onclick="calcularTotal()">Calcular Total</button>
+            <button type="button" id="imprimirFacturaBtn" onclick="imprimirFactura()" style="display: none;">Imprimir Factura</button>
+        </form>
+       
+       
+        
+        <p id="total">Total efectivo: $0.00</p>
+        <p id="totalDescuadre">Descuadre: $0.00 <span id="errorDescuadre" class="error-message"></span></p> <!-- Mensaje de error aquí -->
+       
+    </div>
+
+    <script src="script.js"></script>
+    <script src="tour.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+body {
+    background-image: url(./img/Fondo.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+img{
+    width: 200px;
+}
+
+.chat-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 400px;
+    margin: auto;
+    background-color: #F5F5DC;
+    border-radius: 10px;
+}
+
+.question {
+    margin-bottom: 5px;
+}
+
+input {
+    width: 95%;
+    padding: 10px;
+    margin: 1px 0px;
+    border: 1px solid #F5F5DC;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #ffc363;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #efb812;
+    transition: 3px;
+}
+
+#total {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+#totalDescuadre{
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+#totalTransacional{
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Personalizar el fondo de los pasos */
+.shepherd .shepherd-content {
+    background-color: #ffffff; /* Cambia el color de fondo */
+    color: #333; /* Cambia el color del texto */
+}
+
+.shepherd .shepherd-button-final {
+    background-color: #28a745; /* Color de fondo */
+    color: #fff; /* Color del texto */
+}
+.shepherd .shepherd-header{
+    color: #fecb24;
+    background-color: #fecb24;
+}
+
+
+
+
