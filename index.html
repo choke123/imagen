@@ -103,40 +103,41 @@
     </div>
 
     <script>
-        document.getElementById("recaptchaForm").addEventListener("submit", async function (e) {
-            e.preventDefault(); // Evita el envío del formulario tradicional
-            
-            const recaptchaResponse = document.querySelector(".g-recaptcha-response").value;
+       async function calcularTotal() {
+    const recaptchaResponse = document.querySelector(".g-recaptcha-response").value;
 
-            if (!recaptchaResponse) {
-                document.getElementById("status").textContent = "Por favor completa el reCAPTCHA.";
-                return;
-            }
+    if (!recaptchaResponse) {
+        document.getElementById("status").textContent = "Por favor completa el reCAPTCHA.";
+        return;
+    }
 
-            const secretKey = "6Lfxxn4qAAAAACN5QhCD4eu1KuA5a_s7NNyDKcYJ"; // Tu clave secreta de reCAPTCHA
+    const secretKey = "6Lfxxn4qAAAAACN5QhCD4eu1KuA5a_s7NNyDKcYJ"; // Clave secreta de reCAPTCHA
 
-            try {
-                // Enviar el token a Google para verificarlo
-                const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    body: `secret=${secretKey}&response=${recaptchaResponse}`
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    document.getElementById("status").textContent = "reCAPTCHA verificado correctamente. Formulario enviado.";
-                } else {
-                    document.getElementById("status").textContent = "Fallo en la verificación de reCAPTCHA.";
-                }
-            } catch (error) {
-                console.error("Error en la verificación de reCAPTCHA:", error);
-                document.getElementById("status").textContent = "Error al verificar reCAPTCHA.";
-            }
+    try {
+        // Enviar el token al servidor de Google
+        const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `secret=${secretKey}&response=${recaptchaResponse}`
         });
+
+        const result = await response.json();
+
+        if (result.success) {
+            document.getElementById("status").textContent = "Verificación exitosa. Procesando formulario...";
+            // Aquí puedes proceder con la lógica del formulario
+            calcularTotal(); // Llama a la función de cálculo si la verificación es exitosa
+        } else {
+            document.getElementById("status").textContent = "Fallo en la verificación del reCAPTCHA.";
+        }
+    } catch (error) {
+        console.error("Error en la verificación del reCAPTCHA:", error);
+        document.getElementById("status").textContent = "Error al verificar reCAPTCHA.";
+    }
+}
+
     </script>
 
     <script src="script.js"></script>
