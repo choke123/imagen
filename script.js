@@ -21,7 +21,7 @@ function formatNumber(input) {
             input.value = ''; // Asegúrate de que no deje "-0" o algún valor inválido
         }
     }
-}
+}    
 
  async function calcularTotal() {
     // Obtener el valor del token reCAPTCHA
