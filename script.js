@@ -298,6 +298,7 @@ function mostrarAlerta() {
 
 const videoContainer = document.getElementById('videoContainer');
 const closeVideoButton = document.getElementById('closeVideo');
+const helpShowButton = document.getElementById('helpShowButton');
 let isDragging = false;
 let offsetX, offsetY;
 
@@ -306,6 +307,9 @@ closeVideoButton.addEventListener('click', () => {
     videoContainer.style.display = 'none'; // Oculta el contenedor del video
 });
 
+helpShowButton.addEventListener('click', () => {
+    videoContainer.style.display = 'block'; // Muestra el video
+});
 
 // Función para manejar el inicio del arrastre (mouse y touch)
 function startDrag(e) {
