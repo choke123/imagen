@@ -19,9 +19,12 @@
 </head>
 <body>
 
-    <div class="logo">
-        <img src="img/logo.jpg" alt="">
-        <br><br>
+    <div id="videoContainer">
+        <video id="miniVideo" controls>
+            <button id="closeVideo" aria-label="Cerrar video">&times;</button>
+            <source src="img/videocal.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
     </div>
     <div class="chat-box">
         <div>
@@ -95,15 +98,18 @@
             <button type="button" id="imprimirFacturaBtn" onclick="imprimirFactura()" style="display: none;">Imprimir Factura</button>
         </form>
        
-       
-        
+      
         <p id="total">Total efectivo: $0.00</p>
         <p id="totalDescuadre">Descuadre: $0.00 <span id="errorDescuadre" class="error-message"></span></p> <!-- Mensaje de error aquí -->
        
     </div>
 
-    <script src="recaptcha.js"></script>
-    <script src="script.js"></script>
+
     
+    
+
+    <script src="script.js"></script>
+    <script src="recaptcha.js"></script>
+    <script src="tour.js"></script>
 </body>
 </html>
