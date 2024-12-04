@@ -85,13 +85,43 @@ button:hover {
     right: 10px;
     width: 500px;
     height: 400px;
-    cursor: move;
     z-index: 1000;
     border-radius: 8px;
     overflow: hidden;
-    touch-action: none;
-    padding: 5px;
+    background-color: #f9f9f9;
+    padding: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+}
+
+/* Cabecera del video con el mensaje y botón de cierre */
+#videoHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+    cursor: grab;
+}
+
+/* Botón de cierre */
+#closeVideo {
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    border-radius: 45%;
+    width: 40px;
+    height: 40px;
+    font-size:30px;
+    text-align: center;
+    line-height: 22px;
+    cursor: pointer;
+}
+
+#closeVideo:hover {
+    background-color: #e60000;
 }
 
 /* Estilo del video */
@@ -102,40 +132,61 @@ button:hover {
 }
 
 /* Texto de ayuda sobre el video */
-
-
-/* Estilo del formulario principal */
+#videoHelpText {
+    margin-top: 8px;
+    font-size: 14px;
+    text-align: center;
+    color: #555;
+    font-weight: normal;
+}
 
 /* Diseño para móviles */
 @media (max-width: 767px) {
     #videoContainer {
-        width: 300px;
-        height: 150px;
-        top: 10px;
-        right: 10px;
+        position: absolute;
+        width: 100%;
+        margin: 0 auto 20px auto;
+        box-shadow: none;
     }
 
-    #videoHelpText {
-        font-size: 12px;
+    #miniVideo {
+        width: 100%;
+    }
+
+    #videoHeader {
+        font-size: 16px;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    
+
+    #mainForm {
+        margin-top: 20px;
+        width: 90%;
     }
 }
-
-#closeVideo {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: #ff5c5c;
+#helpShowButton {
+    background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    font-size: 18px;
-    text-align: center;
-    line-height: 22px;
+    border-radius: 45%;
+    width: 40px;
+    height: 40px;
+    font-size:30px;
     cursor: pointer;
-    z-index: 1001;
+    line-height: 25px;
+    text-align: center;
 }
 
+#helpShowButton:hover {
+    background-color: #0056b3;
+}
+
+.titulo-container {
+    display: flex;
+    align-items: center; /* Alinea el botón con el texto del título */
+    gap: 10px; /* Espaciado entre el título y el botón */
+}
 
 
