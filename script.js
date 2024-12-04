@@ -337,6 +337,22 @@ function endDrag() {
     videoContainer.style.cursor = "move";
 }
 
+
+function disableBackgroundScroll() {
+    document.body.style.overflow = "hidden"; // Desactiva el desplazamiento
+    document.body.style.touchAction = "none"; // Previene gestos táctiles en el fondo
+}
+
+// Función para habilitar el desplazamiento del fondo
+function enableBackgroundScroll() {
+    document.body.style.overflow = ""; // Reactiva el desplazamiento
+    document.body.style.touchAction = ""; // Permite gestos táctiles en el fondo
+}
+
+// Eventos para gestionar el desplazamiento mientras el video está activo
+videoContainer.addEventListener("touchstart", disableBackgroundScroll);
+videoContainer.addEventListener("touchend", enableBackgroundScroll);
+
 // Eventos para mouse
 videoContainer.addEventListener('mousedown', startDrag);
 document.addEventListener('mousemove', onDrag);
