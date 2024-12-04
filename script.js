@@ -21,15 +21,15 @@ function formatNumber(input) {
             input.value = ''; // Asegúrate de que no deje "-0" o algún valor inválido
         }
     }
-}    
-
+}
 
 function calcularTotal() {
-const recaptchaResponse = grecaptcha.getResponse();
+    const recaptchaResponse = grecaptcha.getResponse();
     if (!recaptchaResponse) {
         alert("Por favor, complete el reCAPTCHA para continuar.");
         return; // Detener si el reCAPTCHA no está completado
     }
+
     // Obtener los valores de los campos, y si están vacíos, tratarlos como 0
     let saldoEfectivo = parseInt(document.getElementById('saldoEfectivo').value.replace(/\./g, '').replace(',', '.')) || 0;
     let saldoSomos = parseFloat(document.getElementById('saldoSomos').value.replace(/\./g, '').replace(',', '.')) || 0;
@@ -161,9 +161,6 @@ if (cierreDiaAnterior === "") {
     // Mostrar el botón de imprimir factura
     document.getElementById("imprimirFacturaBtn").style.display = "inline-block";
 }
-
-
- 
 
 
 // Simulación de función para enviar datos al backend (a implementar)
@@ -298,3 +295,52 @@ function mostrarAlerta() {
         alertShown = true; // Marcamos que la alerta ha sido mostrada
     });
 }
+
+const videoContainer = document.getElementById('videoContainer');
+const closeVideoButton = document.getElementById('closeVideo');
+let isDragging = false;
+let offsetX, offsetY;
+
+
+closeVideoButton.addEventListener('click', () => {
+    videoContainer.style.display = 'none'; // Oculta el contenedor del video
+});
+
+
+// Función para manejar el inicio del arrastre (mouse y touch)
+function startDrag(e) {
+    isDragging = true;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    offsetX = clientX - videoContainer.offsetLeft;
+    offsetY = clientY - videoContainer.offsetTop;
+    videoContainer.style.cursor = "grabbing";
+}
+
+// Función para mover el contenedor (mouse y touch)
+function onDrag(e) {
+    if (isDragging) {
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        videoContainer.style.left = `${clientX - offsetX}px`;
+        videoContainer.style.top = `${clientY - offsetY}px`;
+    }
+}
+
+// Función para finalizar el arrastre (mouse y touch)
+function endDrag() {
+    isDragging = false;
+    videoContainer.style.cursor = "move";
+}
+
+// Eventos para mouse
+videoContainer.addEventListener('mousedown', startDrag);
+document.addEventListener('mousemove', onDrag);
+document.addEventListener('mouseup', endDrag);
+
+// Eventos para touch
+videoContainer.addEventListener('touchstart', startDrag);
+document.addEventListener('touchmove', onDrag);
+document.addEventListener('touchend', endDrag);
+
+
