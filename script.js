@@ -348,6 +348,13 @@ function enableBackgroundScroll() {
     document.body.style.overflow = ""; // Reactiva el desplazamiento
     document.body.style.touchAction = ""; // Permite gestos táctiles en el fondo
 }
+function blockScroll(event) {
+    event.stopPropagation(); // Detiene la propagación del evento
+    event.preventDefault(); // Evita que la página maneje el desplazamiento
+}
+
+// Asignar el evento táctil al contenedor del video
+
 
 // Eventos para gestionar el desplazamiento mientras el video está activo
 videoContainer.addEventListener("touchstart", disableBackgroundScroll);
