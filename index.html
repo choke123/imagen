@@ -20,15 +20,21 @@
 <body>
 
     <div id="videoContainer">
-        <video id="miniVideo" controls>
+        <div id="videoHeader">
+            <span>Video instructivo</span>
             <button id="closeVideo" aria-label="Cerrar video">&times;</button>
+        </div>
+
+        <video id="miniVideo" controls>
+            
             <source src="img/videocal.mp4" type="video/mp4">
             Tu navegador no soporta el video.
         </video>
     </div>
     <div class="chat-box">
-        <div>
-            <h1 id="titulo">CIERRE MANUAL</h1>
+        <div class="titulo-container">
+            <h2 id="titulo">CIERRE MANUAL</h2>
+            <button id="helpShowButton" aria-label="Mostrar ayuda">?</button>
         </div>
        
         <form id="cuadreForm">
