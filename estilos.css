@@ -87,6 +87,7 @@ button:hover {
     height: 400px;
     z-index: 1000;
     border-radius: 8px;
+    touch-action: pan-x pan-y;
     overflow: hidden;
     background-color: #f9f9f9;
     padding: 10px;
