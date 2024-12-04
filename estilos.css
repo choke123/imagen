@@ -79,6 +79,63 @@ button:hover {
     background-color: #fecb24;
 }
 
+#videoContainer {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 500px;
+    height: 400px;
+    cursor: move;
+    z-index: 1000;
+    border-radius: 8px;
+    overflow: hidden;
+    touch-action: none;
+    padding: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo del video */
+#miniVideo {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Texto de ayuda sobre el video */
+
+
+/* Estilo del formulario principal */
+
+/* Diseño para móviles */
+@media (max-width: 767px) {
+    #videoContainer {
+        width: 300px;
+        height: 150px;
+        top: 10px;
+        right: 10px;
+    }
+
+    #videoHelpText {
+        font-size: 12px;
+    }
+}
+
+#closeVideo {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 18px;
+    text-align: center;
+    line-height: 22px;
+    cursor: pointer;
+    z-index: 1001;
+}
 
 
 
