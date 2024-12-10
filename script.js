@@ -1,4 +1,23 @@
 
+$(document).ready(function () {
+    $('#input2').on('blur', function () {
+        // Detectar cuando el usuario salga del segundo input
+        const recaptchaOffset = $('.g-recaptcha').offset().top; // Obtener la posición del reCAPTCHA
+        $('html, body').animate({ scrollTop: recaptchaOffset - 50 }, 500); // Desplazar hasta el reCAPTCHA
+
+        // Mostrar el mensaje cerca del reCAPTCHA
+        $('#recaptchaMessage').fadeIn();
+    });
+
+    // Ocultar el mensaje si el reCAPTCHA se completa
+    $(document).on('click', '.g-recaptcha', function () {
+        $('#recaptchaMessage').fadeOut();
+    });
+});
+
+
+
+
 function formatNumber(input) {
     // Reemplaza los puntos para manejar correctamente el número
     let value = input.value.replace(/\./g, '').replace(',', '.');
