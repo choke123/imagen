@@ -98,7 +98,7 @@
                 <label for="fechaCierre">Fecha de Cierre:</label>
                 <input type="date" id="fechaCierre" required>
             </div>
-            <div class="g-recaptcha" data-sitekey="6Lfxxn4qAAAAACN5QhCD4eu1KuA5a_s7NNyDKcYJ"></div>
+           
 
             <button type="button" onclick="calcularTotal()">Calcular Total</button>
             <button type="button" id="imprimirFacturaBtn" onclick="imprimirFactura()" style="display: none;">Imprimir Factura</button>
@@ -110,7 +110,15 @@
        
     </div>
 
-
+<form id="corresponsalForm">
+        <input type="text" id="input1" name="input1" placeholder="Dato 1" required>
+        <input type="text" id="input2" name="input2" placeholder="Dato 2" required>
+        <div class="g-recaptcha" data-sitekey="6Lfxxn4qAAAAACN5QhCD4eu1KuA5a_s7NNyDKcYJ"></div>
+        <div id="recaptchaMessage" style="color: red; font-size: 14px; display: none; margin-top: 5px;">
+            Por favor, completa el reCAPTCHA.
+        </div>
+        <button type="submit">Validar</button>
+    </form>
     
     
 
