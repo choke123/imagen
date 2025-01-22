@@ -1,30 +1,49 @@
 const video = document.getElementById("camera");
+const captureButton = document.getElementById("captureButton");
 const canvas = document.getElementById("snapshot");
-const context = canvas.getContext("2d");
-const output = document.getElementById("data");
+const ctx = canvas.getContext("2d");
+const extractedTextElement = document.getElementById("extractedText");
 
-// Activar cámara
-navigator.mediaDevices
-  .getUserMedia({ video: true })
-  .then((stream) => {
+const constraints = {
+  video: {
+    facingMode: "environment", // Cámara trasera
+  },
+};
+
+// Función para habilitar la cámara
+async function enableCamera() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
     video.srcObject = stream;
-  })
-  .catch((error) => console.error("Error al acceder a la cámara:", error));
+  } catch (error) {
+    alert("Error al acceder a la cámara: " + error.message);
+    console.error("Error:", error);
+  }
+}
 
-// Capturar imagen
-document.getElementById("capture").addEventListener("click", () => {
+// Capturar una imagen del video
+captureButton.addEventListener("click", () => {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
-  context.drawImage(video, 0, 0, canvas.width, canvas.height);
-  alert("Imagen capturada. Ahora presiona 'Extraer Información'");
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  // Convertir la imagen a formato base64
+  const imageData = canvas.toDataURL("image/png");
+  processOCR(imageData);
 });
 
-// Procesar imagen con OCR
-document.getElementById("extract").addEventListener("click", () => {
-  const imageData = canvas.toDataURL("image/png");
-  Tesseract.recognize(imageData, "spa")
-    .then(({ data: { text } }) => {
-      output.innerText = text;
-    })
-    .catch((error) => console.error("Error en OCR:", error));
-});
+// Procesar OCR con Tesseract.js
+async function processOCR(imageData) {
+  extractedTextElement.textContent = "Procesando...";
+  try {
+    const result = await Tesseract.recognize(imageData, "spa", {
+      logger: (info) => console.log(info), // Opcional: muestra el progreso en la consola
+    });
+    extractedTextElement.textContent = result.data.text;
+  } catch (error) {
+    extractedTextElement.textContent = "Error al procesar el texto.";
+    console.error("Error de OCR:", error);
+  }
+}
+
+enableCamera();
