@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Voucher Scanner</title>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@v2.1.1/dist/tesseract.min.js"></script>
+  <title>Leer Vouchers</title>
+  <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-  <h1>Escáner de Vouchers</h1>
-  <video id="camera" autoplay></video>
-  <canvas id="snapshot" style="display: none;"></canvas>
-  <button id="capture">Capturar</button>
-  <button id="extract">Extraer Información</button>
+  <h1>Escanea tu Voucher</h1>
+  <video id="camera" autoplay playsinline></video>
+  <button id="captureButton">Capturar</button>
+  <canvas id="snapshot"></canvas>
   <div id="output">
-    <h2>Datos extraídos:</h2>
-    <p id="data"></p>
+    <h2>Texto extraído:</h2>
+    <p id="extractedText">Esperando captura...</p>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1/dist/tesseract.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
