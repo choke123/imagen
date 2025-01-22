@@ -39,11 +39,35 @@ async function processOCR(imageData) {
     const result = await Tesseract.recognize(imageData, "spa", {
       logger: (info) => console.log(info), // Opcional: muestra el progreso en la consola
     });
-    extractedTextElement.textContent = result.data.text;
+
+    // Filtrar datos específicos del texto
+    const text = result.data.text;
+    const extractedData = extractVoucherData(text);
+    extractedTextElement.textContent = formatExtractedData(extractedData);
   } catch (error) {
     extractedTextElement.textContent = "Error al procesar el texto.";
     console.error("Error de OCR:", error);
   }
+}
+
+// Función para extraer datos específicos del voucher
+function extractVoucherData(text) {
+  return {
+    producto: text.match(/Producto:\s*(.*)/i)?.[1]?.trim() || "No encontrado",
+    valor: text.match(/VALOR\s*\$\s*([\d,]+)/i)?.[1]?.trim() || "No encontrado",
+    titular: text.match(/Titular:\s*(.*)/i)?.[1]?.trim() || "No encontrado",
+    recibo: text.match(/Recibo:\s*(\d+)/i)?.[1]?.trim() || "No encontrado",
+  };
+}
+
+// Formatear los datos extraídos para mostrarlos en pantalla
+function formatExtractedData(data) {
+  return `
+    Producto: ${data.producto}
+    Valor: $${data.valor}
+    Titular: ${data.titular}
+    Recibo: ${data.recibo}
+  `;
 }
 
 enableCamera();
