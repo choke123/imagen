@@ -1,73 +1,62 @@
-const video = document.getElementById("camera");
-const captureButton = document.getElementById("captureButton");
-const canvas = document.getElementById("snapshot");
-const ctx = canvas.getContext("2d");
+const uploadInput = document.getElementById("uploadInput");
 const extractedTextElement = document.getElementById("extractedText");
 
-const constraints = {
-  video: {
-    facingMode: "environment", // Cámara trasera
-  },
-};
-
-// Función para habilitar la cámara
-async function enableCamera() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    video.srcObject = stream;
-  } catch (error) {
-    alert("Error al acceder a la cámara: " + error.message);
-    console.error("Error:", error);
+// Procesar archivo subido
+uploadInput.addEventListener("change", async (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    extractedTextElement.textContent = "Procesando...";
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const imageData = reader.result;
+      await processOCR(imageData);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    extractedTextElement.textContent = "No se seleccionó ningún archivo.";
   }
-}
-
-// Capturar una imagen del video
-captureButton.addEventListener("click", () => {
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-  // Convertir la imagen a formato base64
-  const imageData = canvas.toDataURL("image/png");
-  processOCR(imageData);
 });
 
 // Procesar OCR con Tesseract.js
 async function processOCR(imageData) {
-  extractedTextElement.textContent = "Procesando...";
   try {
     const result = await Tesseract.recognize(imageData, "spa", {
       logger: (info) => console.log(info), // Opcional: muestra el progreso en la consola
     });
 
-    // Filtrar datos específicos del texto
     const text = result.data.text;
-    const extractedData = extractVoucherData(text);
-    extractedTextElement.textContent = formatExtractedData(extractedData);
+    const vouchersData = extractMultipleVouchers(text);
+    extractedTextElement.textContent = formatExtractedVouchersData(vouchersData);
   } catch (error) {
     extractedTextElement.textContent = "Error al procesar el texto.";
     console.error("Error de OCR:", error);
   }
 }
 
-// Función para extraer datos específicos del voucher
-function extractVoucherData(text) {
-  return {
-    producto: text.match(/Producto:\s*(.*)/i)?.[1]?.trim() || "No encontrado",
-    valor: text.match(/VALOR\s*\$\s*([\d,]+)/i)?.[1]?.trim() || "No encontrado",
-    titular: text.match(/Titular:\s*(.*)/i)?.[1]?.trim() || "No encontrado",
-    recibo: text.match(/Recibo:\s*(\d+)/i)?.[1]?.trim() || "No encontrado",
-  };
+// Extraer datos de múltiples vouchers
+function extractMultipleVouchers(text) {
+  const vouchers = [];
+  const voucherRegex = /Producto:\s*(.*)\n.*Titular:\s*(.*)\n.*VALOR\s*\$\s*([\d,]+)/g;
+  let match;
+
+  while ((match = voucherRegex.exec(text)) !== null) {
+    vouchers.push({
+      producto: match[1].trim(),
+      titular: match[2].trim(),
+      valor: match[3].replace(',', '').trim(),
+    });
+  }
+  return vouchers;
 }
 
-// Formatear los datos extraídos para mostrarlos en pantalla
-function formatExtractedData(data) {
-  return `
-    Producto: ${data.producto}
-    Valor: $${data.valor}
-    Titular: ${data.titular}
-    Recibo: ${data.recibo}
-  `;
+// Formatear los datos extraídos
+function formatExtractedVouchersData(vouchers) {
+  if (vouchers.length === 0) {
+    return "No se encontraron datos válidos.";
+  }
+  return vouchers
+    .map((voucher, index) => 
+      `Voucher ${index + 1}:\nProducto: ${voucher.producto}\nTitular: ${voucher.titular}\nValor: $${voucher.valor}\n`
+    )
+    .join("\n");
 }
-
-enableCamera();
