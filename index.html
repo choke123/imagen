@@ -7,13 +7,11 @@
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-  <h1>Escanea tu Voucher</h1>
-  <video id="camera" autoplay playsinline></video>
-  <button id="captureButton">Capturar</button>
-  <canvas id="snapshot"></canvas>
+  <h1>Sube tu Voucher</h1>
+  <input type="file" id="uploadInput" accept="image/*">
   <div id="output">
-    <h2>Texto extraído:</h2>
-    <p id="extractedText">Esperando captura...</p>
+    <h2>Información extraída:</h2>
+    <pre id="extractedText">Esperando archivo...</pre>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1/dist/tesseract.min.js"></script>
   <script src="script.js"></script>
