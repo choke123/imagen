@@ -1,7 +1,6 @@
 const uploadInput = document.getElementById("uploadInput");
 const extractedTextElement = document.getElementById("extractedText");
 
-// Procesar archivo subido
 uploadInput.addEventListener("change", async (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -9,7 +8,8 @@ uploadInput.addEventListener("change", async (event) => {
     const reader = new FileReader();
     reader.onload = async () => {
       const imageData = reader.result;
-      await processOCR(imageData);
+      const processedImage = await preprocessImage(imageData); // Preprocesar imagen
+      await processOCR(processedImage);
     };
     reader.readAsDataURL(file);
   } else {
@@ -17,55 +17,45 @@ uploadInput.addEventListener("change", async (event) => {
   }
 });
 
-// Procesar OCR con Tesseract.js
+async function preprocessImage(imageData) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const img = new Image();
+  img.src = imageData;
+
+  return new Promise((resolve) => {
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      // Convertir a escala de grises
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const pixels = imageData.data;
+      for (let i = 0; i < pixels.length; i += 4) {
+        const gray = 0.299 * pixels[i] + 0.587 * pixels[i + 1] + 0.114 * pixels[i + 2];
+        pixels[i] = gray;
+        pixels[i + 1] = gray;
+        pixels[i + 2] = gray;
+      }
+      ctx.putImageData(imageData, 0, 0);
+
+      resolve(canvas.toDataURL());
+    };
+  });
+}
+
 async function processOCR(imageData) {
   try {
     const result = await Tesseract.recognize(imageData, "spa", {
-      logger: (info) => console.log(info), // Opcional: muestra el progreso en la consola
+      logger: (info) => console.log(info),
+      tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:$',
     });
 
-    const text = result.data.text;
-    const vouchersData = extractVouchers(text);
-    extractedTextElement.textContent = formatExtractedVouchersData(vouchersData);
+    extractedTextElement.textContent = result.data.text || "No se pudo extraer información.";
   } catch (error) {
     extractedTextElement.textContent = "Error al procesar el texto.";
     console.error("Error de OCR:", error);
   }
-}
-
-// Extraer datos de múltiples vouchers (sin buscar datos específicos)
-function extractVouchers(text) {
-  const vouchers = [];
-  const lines = text.split('\n'); // Divide el texto en líneas
-
-  let currentVoucher = '';
-  lines.forEach(line => {
-    if (line.trim() === '') {
-      if (currentVoucher) {
-        vouchers.push(currentVoucher.trim());
-        currentVoucher = ''; // Resetea para el siguiente voucher
-      }
-    } else {
-      currentVoucher += line + '\n'; // Acumula la información de cada voucher
-    }
-  });
-
-  // Asegura que el último voucher se agregue
-  if (currentVoucher.trim()) {
-    vouchers.push(currentVoucher.trim());
-  }
-
-  return vouchers;
-}
-
-// Formatear los datos extraídos
-function formatExtractedVouchersData(vouchers) {
-  if (vouchers.length === 0) {
-    return "No se encontraron datos válidos.";
-  }
-  return vouchers
-    .map((voucher, index) => 
-      `Voucher ${index + 1}:\n${voucher}\n`
-    )
-    .join("\n");
 }
