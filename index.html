@@ -4,14 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leer Vouchers</title>
-  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Sube tu Voucher</h1>
-  <input type="file" id="uploadInput" accept="image/*">
+  <h1>Escanea tu Voucher</h1>
+  <video id="camera" autoplay playsinline></video>
+  <button id="captureButton">Capturar</button>
+  <canvas id="snapshot"></canvas>
   <div id="output">
-    <h2>Información extraída:</h2>
-    <pre id="extractedText">Esperando archivo...</pre>
+    <h2>Texto extraído:</h2>
+    <p id="extractedText">Esperando captura...</p>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1/dist/tesseract.min.js"></script>
   <script src="script.js"></script>
