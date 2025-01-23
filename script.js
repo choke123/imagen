@@ -25,7 +25,7 @@ async function processOCR(imageData) {
     });
 
     const text = result.data.text;
-    const vouchersData = extractMultipleVouchers(text);
+    const vouchersData = extractVouchers(text);
     extractedTextElement.textContent = formatExtractedVouchersData(vouchersData);
   } catch (error) {
     extractedTextElement.textContent = "Error al procesar el texto.";
@@ -33,19 +33,28 @@ async function processOCR(imageData) {
   }
 }
 
-// Extraer datos de múltiples vouchers
-function extractMultipleVouchers(text) {
+// Extraer datos de múltiples vouchers (sin buscar datos específicos)
+function extractVouchers(text) {
   const vouchers = [];
-  const voucherRegex = /Producto:\s*(.*)\n.*Titular:\s*(.*)\n.*VALOR\s*\$\s*([\d,]+)/g;
-  let match;
+  const lines = text.split('\n'); // Divide el texto en líneas
 
-  while ((match = voucherRegex.exec(text)) !== null) {
-    vouchers.push({
-      producto: match[1].trim(),
-      titular: match[2].trim(),
-      valor: match[3].replace(',', '').trim(),
-    });
+  let currentVoucher = '';
+  lines.forEach(line => {
+    if (line.trim() === '') {
+      if (currentVoucher) {
+        vouchers.push(currentVoucher.trim());
+        currentVoucher = ''; // Resetea para el siguiente voucher
+      }
+    } else {
+      currentVoucher += line + '\n'; // Acumula la información de cada voucher
+    }
+  });
+
+  // Asegura que el último voucher se agregue
+  if (currentVoucher.trim()) {
+    vouchers.push(currentVoucher.trim());
   }
+
   return vouchers;
 }
 
@@ -56,7 +65,7 @@ function formatExtractedVouchersData(vouchers) {
   }
   return vouchers
     .map((voucher, index) => 
-      `Voucher ${index + 1}:\nProducto: ${voucher.producto}\nTitular: ${voucher.titular}\nValor: $${voucher.valor}\n`
+      `Voucher ${index + 1}:\n${voucher}\n`
     )
     .join("\n");
 }
