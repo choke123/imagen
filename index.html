@@ -1,21 +1,486 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leer Vouchers</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Districol</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        #chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        #chat-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+        #chatbox {
+            width: 100%;
+            height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            background: white;
+            display: none;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            white-space: pre-line;
+        }
+        .bot {
+            background-color: #f1f1f1;
+            color: #333;
+            align-self: flex-start;
+        }
+        .user {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        #options {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #eee;
+            display: none;
+        }
+        .option-button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
+        }
+        .option-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-  <h1>Escanea tu Voucher</h1>
-  <video id="camera" autoplay playsinline></video>
-  <button id="captureButton">Capturar</button>
-  <canvas id="snapshot"></canvas>
-  <div id="output">
-    <h2>Texto extraído:</h2>
-    <p id="extractedText">Esperando captura...</p>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1/dist/tesseract.min.js"></script>
-  <script src="script.js"></script>
+    <div id="chat-container">
+        <div id="chat-icon" onclick="toggleChat()">🤖</div>
+        <div id="chatbox"></div>
+        <div id="options" style="display: none;"></div>
+    </div>
+    <script>
+
+
+
+
+        const chatbox = document.getElementById("chatbox");
+        const optionsDiv = document.getElementById("options");
+
+        function toggleChat() {
+            if (chatbox.style.display === "none" || chatbox.style.display === "") {
+                chatbox.style.display = "block";
+                optionsDiv.style.display = "block";
+            } else {
+                chatbox.style.display = "none";
+                optionsDiv.style.display = "none";
+            }
+        }
+
+        function addMessage(sender, text) {
+            const msg = document.createElement("div");
+            msg.classList.add("message", sender);
+            msg.textContent = text;
+            chatbox.appendChild(msg);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function showOptions(options) {
+            optionsDiv.innerHTML = "";
+            options.forEach(option => {
+                const button = document.createElement("button");
+                button.classList.add("option-button");
+                button.textContent = option.text;
+                button.onclick = () => handleResponse(option.value);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function handleResponse(response) {
+            addMessage("user", response);
+            optionsDiv.innerHTML = "";
+            function addMessage(sender, text) {
+    const msg = document.createElement("div");
+    msg.classList.add("message", sender);
+    if (sender === "bot" && text.includes("<strong>")) {
+        msg.innerHTML = text; // Usar innerHTML para interpretar etiquetas HTML
+    } else {
+        msg.textContent = text; // Usar textContent para texto plano
+    }
+    chatbox.appendChild(msg);
+    chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+function addLink(url) {
+    let link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank"; // Abre en nueva pestaña
+    link.innerText = "Ir a PQRS";
+    link.style.color = "#007bff"; // Color azul (opcional)
+    link.style.textDecoration = "underline"; // Subrayado (opcional)
+
+    // Agregar el enlace al contenedor de mensajes
+    let chatContainer = document.getElementById("chatbox"); // Ajusta según tu estructura
+    let messageDiv = document.createElement("div");
+    messageDiv.appendChild(link);
+    chatContainer.appendChild(messageDiv);
+}
+            if (response === "Sí") {
+                addMessage("bot", "Puedo ayudarte con esto:");
+                showOptions([
+                    { text: "PQRS", value: "PQRS" },
+                    { text: "Reporte compensación a cero", value: "Reporte compensación a cero" },
+                    { text: "Reporte de ausencia", value: "Reporte de ausencia" },
+                    { text: "Certificados de pago", value: "Certificados de pago" },
+                    { text: "Preguntas frecuentes", value: "Preguntas frecuentes" },
+                    { text: "Finalizar", value: "Finalizar" }
+                ]);
+            } else if (response === "PQRS") {
+    addMessage("bot", "En PQRS puedes cargar este tipo de solicitudes:");
+    showOptions([
+        { text: "1. Error en compensación", value: "Error compensación" },
+        { text: "2. Descuadre", value: "Descuadre" },
+        { text: "3. Pago de comisión", value: "Pago comisión" },
+        { text: "4. Ajustes al CB", value: "Ajustes CB" },
+        { text: "5. Vencimiento envió rollos", value: "Vencimiento rollos" },
+        { text: "6. Vencimiento soporte técnico", value: "Vencimiento soporte" },
+        { text: "7. Solicitud datafono adicional", value: "Datafono adicional" },
+        { text: "8. Solicitud de Pin Pad", value: "Pin Pad" },
+        { text: "Volver", value: "Sí" }
+    ]);
+} else if (response === "Error compensación") {
+    addMessage("bot", 
+        "<strong>1. Error en compensación</strong>\n" +
+        "   Ten en cuenta que solo puedes radicar compensación errada si te equivocaste en la referencia o convenio."
+    );
+    addLink("https://pagina-de-pqrs.com");
+    showOptions([{ text: "Volver", value: "PQRS" }, { text: "Finalizar", value: "Finalizar" }]);
+} else if (response === "Descuadre") {
+    addMessage("bot", 
+        "<strong>2. Descuadre</strong>\n" +
+        "   Debes tener los saldos de cierre, las tiras de cierre del día que necesitas revisión."
+    );
+    addLink("https://pagina-de-pqrs.com");
+    showOptions([{ text: "Volver", value: "PQRS" }, { text: "Finalizar", value: "Finalizar" }]);
+} else if (response === "Pago comisión") {
+    addMessage("bot", 
+        "<strong>3. Pago de comisión</strong>\n" +
+        "   Si tienes una duda con el pago de comisiones, a continuación, te relacionamos la tarifa del pago de comisiones."
+    );
+    addLink("https://pagina-de-pqrs.com");
+    showOptions([{ text: "Volver", value: "PQRS" }, { text: "Finalizar", value: "Finalizar" }]);
+} else if (response === "Ajustes CB") {
+    addMessage("bot", 
+        "<strong>4. Ajustes al CB</strong>\n" +
+        "   Si tienes dudas con un ajuste no precedente, relacionar comprobantes, recibos o evidencias de la transacción."
+    );
+    addLink("https://pagina-de-pqrs.com");
+    showOptions([{ text: "Volver", value: "PQRS" }, { text: "Finalizar", value: "Finalizar" }]);
+} else if (response === "Vencimiento rollos") {
+    addMessage("bot", 
+        "<strong>5. Vencimiento envió rollos</strong>\n" +
+        "   Indica el radicado y fecha."
+    );
+    addLink("https://pagina-de-pqrs.com");
+    showOptions([{ text: "Volver", value: "PQRS" }, { text: "Finalizar", value: "Finalizar" }]);
+} else if (response === "Vencimiento soporte") {
+    addMessage("bot", "<strong>6. Vencimiento soporte técnico</strong>");
+    addLink("https://pagina-de-pqrs.com");
+    showOptions([{ text: "Volver", value: "PQRS" }, { text: "Finalizar", value: "Finalizar" }]);
+} else if (response === "Datafono adicional") {
+    addMessage("bot", 
+        "<strong>7. Solicitud datafono adicional</strong>\n" +
+        "   Para solicitar el datáfono adicional se necesita realizar 5000 TX al mes (durante 3 meses consecutivos).\n" +
+        "   Si los cumples, comunícate con tu gestor para procesar la solicitud."
+    );
+    addLink("https://pagina-de-pqrs.com");
+    showOptions([{ text: "Volver", value: "PQRS" }, { text: "Finalizar", value: "Finalizar" }]);
+} else if (response === "Pin Pad") {
+    addMessage("bot", 
+        "<strong>8. Solicitud de Pin Pad</strong>\n" +
+        "   Comparte 3 fotos del establecimiento. Debes tener un vidrio separador y anexar 3 fotos del establecimiento:\n" +
+        "   - Fachada\n" +
+        "   - Parte interna\n" +
+        "   - Parte externa\n" +
+        "   Recuerda que esta solicitud debe ser compartida a tu gestor."
+    );
+    addLink("https://pagina-de-pqrs.com");
+    showOptions([{ text: "Volver", value: "PQRS" }, { text: "Finalizar", value: "Finalizar" }]);
+}else if (response === "Preguntas frecuentes") {
+                
+                addMessage("bot", "1.¿Que es  compensación?\n2.Tipos de descuadre\n3.¿Ques es la pagina somos?\n4.¿Que es saldo?\n5.¿Que es cupo? \n6.¿Que es cierre?\n7.Para que se utiliza la linea 018000953344\n8.Somos puntos\n9.Tips del cb");
+                showOptions([
+                    { text: "¿Que es  compensación?", value: "compensación" },
+                    { text: "Tipos de descuadre", value: "descuadre" },
+                    { text: "¿Ques es la pagina somos?", value: "pagina" },
+                    { text: "¿Que es saldo?", value: "saldo" },
+                    { text: "¿Que es cupo?", value: "cupo" },
+                    { text: "¿Que es cierre?", value: "Cierre" },
+                    { text: "Para que se utiliza la linea 018000953344", value: "linea" },
+                    { text: "Somos puntos", value: "puntos" },
+                    { text: "Tips del cb", value: "Tips" },
+                    { text: "Volver", value: "Sí" }
+                ]);
+            } else if (response === "compensación") {
+                addMessage("bot", "<strong>¿QUÉ ES UNA COMPENSACIÓN? </strong> \nLa compensación es el proceso mediante el cual se libera el cupo disponible llevando el efectivo a los lugares autorizados. ");
+                addMessage("bot", "<strong>compensación parcial:</strong>\n Implica trasladar solo una parte del dinero en efectivo con el objetivo de liberar parcialmente el cupo y así poder continuar realizando operaciones.");
+                addMessage("bot", "<strong>Compensación total o a cero:</strong>\n Consiste en depositar la totalidad del efectivo que tiene el corresponsal en los lugares autorizados, liberando por completo el cupo disponible para nuevas transacciones.");    
+                addMessage("bot", "<strong>Lugares autorizados para compensar:</strong>\n•Corresponsales Robustos Bancolombia (Multipagas, Pagafácil, Reval, Oprap y Redy)\n•Cajeros multifuncionales (llevar el código de barras para minimizar errores de compensación)\n•Retail: Éxito, Carulla, Olímpica, Super inter.\n•Sucursal Física\n •APP, Sucursal virtual Bancolombia");
+                showOptions([
+                { text: "Finalizar", value: "Finalizar" },
+                    { text: "Volver", value: "Preguntas frecuentes" }
+                ]);
+            }else if (response === "descuadre") {
+                addMessage("bot", "<strong>Descuadre Operativo:</strong>\n Ocurre cuando al corresponsal le falta o le sobra dinero, pero al realizar el cierre manual, todos los movimientos de las tirillas y váuchers coinciden con los que muestra la página Somos o el informe del Banco.");
+                addMessage("bot", "<strong>Descuadre Transaccional:</strong>\n Se produce cuando al realizar el cierre manual, se nota que el saldo en efectivo no coincide con el de la página Somos. Al revisar los movimientos de las tirillas y váuchers y compararlos con la página Somos, se observa que hay más o menos movimientos en la tirilla que los registrados en la página o viceversa.");
+               
+                showOptions([
+                { text: "Finalizar", value: "Finalizar" },
+                    { text: "Volver", value: "Preguntas frecuentes" }
+                ]);
+            }
+            else if (response === "pagina") {
+                addMessage("bot", "<strong>QUE ES LA PÁGINA SOMOS</strong>\nEs una página que el Banco dispone para que todos los corresponsales estén informados y puedan tener control cupo que disponen para realizar transacciones. Además, en esta página les publican noticias; el catálogo de puntos; las misiones para que participen en el mes, también pueden visualizar los movimientos, que son las transacciones realizadas; las compensaciones y los convenios disponibles.");
+                showOptions([
+                { text: "Finalizar", value: "Finalizar" },
+                    { text: "Volver", value: "Preguntas frecuentes" }
+                ]);
+            }else if (response === "cupo") {
+                addMessage("bot", "<strong>CUPO:</strong>\n El cupo es el valor total con el que cuenta cada corresponsal para operar. Este cupo se calcula sumando el saldo disponible y el cupo disponible, lo que da como resultado el cupo total del corresponsal");
+                addMessage("bot", "<strong>CUPO DISPONIBLE:</strong>\n Es la cantidad de dinero que tiene el corresponsal disponible para realizar transacciones de ingreso.");
+                showOptions([
+                { text: "Finalizar", value: "Finalizar" },
+                    { text: "Volver", value: "Preguntas frecuentes" }
+                ]);
+            }
+            else if (response === "saldo") {
+                addMessage("bot", "<strong>SALDO </strong>\nEs el dinero en efectivo con el que cuenta el corresponsal");
+                showOptions([
+                { text: "Finalizar", value: "Finalizar" },
+                    { text: "Volver", value: "Preguntas frecuentes" }
+                ]);
+            }
+            else if (response === "Cierre") {
+                addMessage("bot", "<strong>CIERRE PARCIAL: </strong> \nSe realiza para conocer el movimiento de las transacciones que se han realizado desde el ultimo cierre parcial o el ultimo cierre total, se recomienda realizar este cierre cuando se va a realizar cambio de operador o si hay alguna duda con una transacción, para hacer un cuadre manual; este cierre se debe realizar siempre antes del cierre total, este cierre no repite transacciones por lo cual también sirve para llevar el conteo de las transacciones realizadas.");
+                addMessage("bot", "<strong>CIERRE TOTAL:</strong>\n Se usa para cerrar la operación, solo se debe realizar una vez, cuando se este seguro que ya no se va operar más y debe realizarse sin falta; la idea es hacer borrado de memoria diariamente para que esa tirilla solo contenga información de un solo día, esa tirilla es indispensable en caso de hacer alguna reclamación ante el Banco cuando hay diferencia transaccional o una reclamación por parte de un cliente. ");
+                showOptions([
+                { text: "Finalizar", value: "Finalizar" },
+                    { text: "Volver", value: "Preguntas frecuentes" }
+                ]);
+            }
+            else if (response === "linea") {
+                addMessage("bot", "<strong>LÍNEA 018000953344:</strong>\n Esta Línea es en la cual los corresponsales se comunican para solicitar anulaciones, soporte técnico, solicitud de rollos, validar la identidad de un técnico, radicar ausencia justificada, inquietudes con la operación, solicitud de publicidad");
+                showOptions([
+                { text: "Finalizar", value: "Finalizar" },
+                    { text: "Volver", value: "Preguntas frecuentes" }
+                ]);
+            }
+            
+            else if (response === "puntos") {
+                addMessage("bot", "<strong>¿Cómo Funciona El Programa SOMOS BANCOLOMBIA?</strong>\nMes a mes tendrás la oportunidad de acumular puntos que podrán ser redimidos por excelentes premios. El 1ro de enero del 2025 se inicia nuevamente el programa con una duración de 12 meses.");
+                addMessage("bot", "<strong>¿Cómo Acumulo Mis Puntos?</strong>\nLos participantes del programa Somos podrán acumular puntos de manera mensual cumpliendo con los indicadores determinados por Bancolombia, la mecánica de cada canal estará publicada en la página web en la sección ¿Cómo gano? / mecánica.");
+                let link = document.createElement("a");
+    link.href = "www.somosbancolombia.com.co";
+    link.target = "_blank"; // Abre en nueva pestaña
+    link.innerText = "Mas informacion ";
+    link.style.color = "#007bff"; // Color azul (opcional)
+    link.style.textDecoration = "underline"; // Subrayado (opcional)
+
+    // Agregar el enlace al contenedor de mensajes
+    let chatContainer = document.getElementById("chatbox"); // Ajusta según tu estructura
+    let messageDiv = document.createElement("div");
+    messageDiv.appendChild(link);
+    chatContainer.appendChild(messageDiv);
+                showOptions([
+                { text: "Finalizar", value: "Finalizar" },
+                    { text: "Volver", value: "Preguntas frecuentes" }
+                ]);
+            }
+            else if (response === "Tips") {
+                addMessage("bot", "<strong>Cómo mantener tu establecimiento ordenado:</strong>\nUn establecimiento limpio y organizado crea un ambiente profesional y confiable para los clientes. Mantén las áreas de trabajo ordenadas, las estaciones de atención despejadas y los productos o servicios bien organizados para facilitar su acceso.");
+                addMessage("bot", "<strong>Cómo incrementar las transacciones (tx):</strong>\nPromueve activamente los servicios bancarios disponibles, educando a tus clientes sobre los beneficios de realizar transacciones en tu establecimiento. Ofrece incentivos o descuentos en ciertos servicios y motiva a los clientes a realizar más operaciones bancarias a través de tu punto.");
+                addMessage("bot", "<strong>Cómo ofrecer un buen servicio:</strong>\nLa clave está en la atención al cliente. Sé amable, respetuoso y profesional. Escucha las necesidades de los clientes y ofrece soluciones rápidas y eficaces. Un buen servicio crea fidelidad y confianza.");
+                addMessage("bot", "<strong>Cómo evitar un cambiazo:</strong>\nMantén una supervisión constante de las transacciones, verificando cuidadosamente los billetes y monedas que recibes. Asegúrate de que todas las transacciones sean claras y transparentes. Implementa prácticas de seguridad como el uso de detectores de billetes falsos para prevenir fraudes.");
+                addMessage("bot", "<strong>Cómo evitar un descuadre:</strong>\nEs fundamental realizar un seguimiento constante de las operaciones y mantener un registro detallado de cada transacción. Al final de cada jornada, realiza un cierre y revisión de caja para asegurarte de que los números coincidan y no haya discrepancias. La organización y los controles de calidad son esenciales.");
+                addMessage("bot", "<strong>No caigas en las malas prácticas:</strong>\nSiempre actúa con honestidad y transparencia. Evita prácticas ilegales o fraudulentas. Mantén la integridad en todas tus operaciones para asegurar el éxito y la reputación a largo plazo de tu establecimiento.");
+                showOptions([
+                    { text: "Finalizar", value: "Finalizar" },
+                    { text: "Volver", value: "Preguntas frecuentes" }
+                ]);
+            }
+
+            else if (response === "Reporte compensación a cero") {
+                addMessage("bot", "Recuerda que como corresponsal bancario debes de compensar a cero mínimo una vez al mes o cada que la alianza lo solicite y no olvides reportarlo.");
+                addMessage("bot", "Puedes enviar la captura de la compensación a cero a tu gestor y al número habilitado.");
+                addMessage("bot", "Si necesitas más información acerca de ello, puedes comunicarte a este WhatsApp: +57 314 7403633");
+                let link = document.createElement("a");
+    link.href = "https://api.whatsapp.com/send/?phone=573147403633&text=Hola,%20deseo%20saber%20más%20acerca%20de%20compensaciones&type=phone_number&app_absent=0";
+    link.target = "_blank"; // Abre en nueva pestaña
+    link.innerText = "Whatsapp aqui ";
+    link.style.color = "#007bff"; // Color azul (opcional)
+    link.style.textDecoration = "underline"; // Subrayado (opcional)
+
+    // Agregar el enlace al contenedor de mensajes
+    let chatContainer = document.getElementById("chatbox"); // Ajusta según tu estructura
+    let messageDiv = document.createElement("div");
+    messageDiv.appendChild(link);
+    chatContainer.appendChild(messageDiv);
+                showOptions([
+                    { text: "Volver", value: "Sí" },
+                    { text: "Finalizar", value: "Finalizar" }
+                ]);
+            }else if (response === "Certificados de pago") {
+                addMessage("bot", "Este certificado es un documento que contiene la informacion del pago del cb.");
+                
+                let link = document.createElement("a");
+    link.href = "https://districol.bitsoluciones.online/signIn";
+    link.target = "_blank"; // Abre en nueva pestaña
+    link.innerText = "Empezar";
+    link.style.color = "#007bff"; // Color azul (opcional)
+    link.style.textDecoration = "underline"; // Subrayado (opcional)
+
+    // Agregar el enlace al contenedor de mensajes
+    let chatContainer = document.getElementById("chatbox"); // Ajusta según tu estructura
+    let messageDiv = document.createElement("div");
+    messageDiv.appendChild(link);
+    chatContainer.appendChild(messageDiv);
+                showOptions([
+                    { text: "Volver", value: "Sí" },
+                    { text: "Finalizar", value: "Finalizar" }
+                ]);
+            }
+             else if (response === "Reporte de ausencia") {
+                addMessage("bot", "Si te vas a ausentar por un periodo determinado, debes llamar a la línea 018000953344 y radicar la inactividad. Comparte el radicado y fecha de vencimiento a tu gestor o alianza.");
+                addMessage("bot", "Si necesitas más información acerca de ello, puedes comunicarte a este WhatsApp: +57 310 5838177");
+                let link = document.createElement("a");
+    link.href = "https://api.whatsapp.com/send/?phone=573105838177&text=Hola,%20deseo%20saber%20más%20acerca%20de%20compensaciones&type=phone_number&app_absent=0";
+    link.target = "_blank"; // Abre en nueva pestaña
+    link.innerText = "Whatsapp aqui ";
+    link.style.color = "#007bff"; // Color azul (opcional)
+    link.style.textDecoration = "underline"; // Subrayado (opcional)
+    
+    // Agregar el enlace al contenedor de mensajes
+    let chatContainer = document.getElementById("chatbox"); // Ajusta según tu estructura
+    let messageDiv = document.createElement("div");
+    messageDiv.appendChild(link);
+    chatContainer.appendChild(messageDiv);
+                showOptions([
+                    { text: "Volver", value: "Sí" },
+                    { text: "Finalizar", value: "Finalizar" }
+                ]);
+            } else if (response === "Finalizar") {
+                addMessage("bot", "Gracias por usar el chat de Districol. ¡Hasta pronto!");
+                showOptions([
+                    { text: "Regresar al menú", value: "Regresar al menú" }
+                ]);
+            } else if (response === "Regresar al menú") {
+                addMessage("bot", "¡Hola! Soy Districol, estoy aquí para ayudarte. ¿Eres corresponsal bancario?");
+                showOptions([
+                    { text: "Sí", value: "Sí" },
+                    { text: "No", value: "No" }
+                ]);
+            } else if (response === "No") {
+                addMessage("bot", "¡Te puedo ayudar con esto!");
+                showOptions([
+                    { text: "Deseo ser corresponsal", value: "Deseo ser corresponsal" },
+                    { text: "Calificar el servicio de un corresponsal", value: "Calificar" },
+                    { text: "¿Quienes Somos?", value: "Quienes Somos" },
+                    
+                    { text: "Finalizar", value: "Finalizar" }
+                ]);
+            } else if (response === "Deseo ser corresponsal") {
+                addMessage("bot", "¡Únete como corresponsal y sé la cara de Bancolombia en tu comunidad!");
+                addMessage("bot", "Buscamos aliados comprometidos con la atención y el servicio de calidad para representar a nuestro banco en sus localidades. Como corresponsal, tendrás la oportunidad de acercar los servicios financieros a las personas, brindando soluciones y fomentando el desarrollo de tu comunidad.");
+                showOptions([
+                    { text: "Requisitos", value: "Requisitos" },
+                    { text: "Volver", value: "No" }
+                ]);
+            } else if (response === "Requisitos") {
+                addMessage("bot", "Elige el tipo de corresponsal:");
+                showOptions([
+                    { text: "Prepago", value: "Prepago" },
+                    { text: "Postpago", value: "Postpago" }
+                ]);
+            } else if (response === "Prepago") {
+                addMessage("bot", "<strong>REQUISITOS CORRESPONSAL PREPAGADO</strong>\n\nTener un negocio legalmente constituido con cámara de comercio, no se valida antigüedad.\n\nFotocopia de la cédula del Representante legal\n\nRut Representante legal\n\nNo se requiere codeudor y no se hacen validaciones en centrales de riesgo, lo cual no afectaría tu puntaje\n\nNo puede tener dentro del negocio donde se va a instalar el corresponsal otro recaudador como: Efecty, Super giros, Dimonex, Jer, Gana, Gane, Punto Red u otro corresponsal de otro banco\n\nTampoco se puede tener otro corresponsal de Bancolombia a menos de 100 metros de distancia.\n\nIMPORTANTE: Todas las solicitudes realizadas a Districol para la apertura o vinculación de nuevos corresponsales, están sujetas a la autorización de tratamiento de datos personales, es decir, el cliente da su consentimiento para utilizar su información, el cual es ejecutado vía WhatsApp.");
+                showOptions([
+                    { text: "Volver", value: "Deseo ser corresponsal" },
+                    { text: "Finalizar", value: "Finalizar" }
+                ]);
+            } else if (response === "Postpago") {
+                addMessage("bot", "<strong>REQUISITOS CORRESPONSAL POSTPAGO</strong>\n\nLa persona que tome el corresponsal no puede estar reportado en centrales de riesgos.\n\nDebe tener un negocio legalmente constituido con cámara de comercio 2 años.\n\nEl negocio debe tener internet.\n\nDebe de haber un codeudor con propiedad raíz como respaldo, el codeudor no puede estar reportado ni la propiedad hipotecada o afecta a bien familiar.\n\nNo puede tener dentro del negocio donde se va a instalar el corresponsal otro recaudador como: Efecty, Super giros, Dimonex, Jer, Gana, Gane, Punto Red u otro corresponsal de otro banco.\n\nTampoco se puede tener otro corresponsal de Bancolombia a menos de 100 metros de distancia.\n\nIMPORTANTE: Todas las solicitudes realizadas a Districol para la apertura o vinculación de nuevos corresponsales, están sujetas a la autorización de tratamiento de datos personales, es decir, el cliente da su consentimiento para utilizar su información, el cual es ejecutado vía WhatsApp.");
+                showOptions([
+                    { text: "Volver", value: "Deseo ser corresponsal" },
+                    { text: "Finalizar", value: "Finalizar" }
+                ]);
+            } else if (response === "Calificar") {
+                addMessage("bot", "<strong>Tu opinión</strong> es clave para que sigamos mejorando En Districol,\n nos importa ofrecer un servicio de calidad a nuestros clientes. La encuesta de satisfacción es una herramienta fundamental para evaluar el desempeño de nuestros corresponsales y mejorar continuamente como compañía. A través de tus calificaciones, podemos identificar áreas de mejora, asegurando que cada interacción ofrezca una experiencia positiva.Te invitamos a compartir tu opinión para que juntos logremos una mejor experiencia para todos nuestros clientes.");
+               
+                let link = document.createElement("a");
+    link.href = "https://www.districol.net/NPS/";
+    link.target = "_blank"; // Abre en nueva pestaña
+    link.innerText = "Empezar";
+    link.style.color = "#007bff"; // Color azul (opcional)
+    link.style.textDecoration = "underline"; // Subrayado (opcional)
+
+    // Agregar el enlace al contenedor de mensajes
+    let chatContainer = document.getElementById("chatbox"); // Ajusta según tu estructura
+    let messageDiv = document.createElement("div");
+    messageDiv.appendChild(link);
+    chatContainer.appendChild(messageDiv);
+                
+                
+                showOptions([
+                    { text: "Volver", value: "No" },
+                    { text: "Finalizar", value: "Finalizar" }
+                ]);
+            } else if (response === "Quienes Somos") {
+                addMessage("bot", "<strong>Somos Corresponsales Districol:</strong>\n conectando sueños, impulsando comunidades");
+                addMessage("bot", "En los rincones más apartados del país, donde las oportunidades parecen lejanas, llevamos esperanza. Para estas comunidades, un pago, un retiro o un ahorro es más que una simple transacción: es confianza y cercanía. Donde otros ven distancia, nosotros vemos oportunidades para transformar vidas.");
+                showOptions([
+                    { text: "Volver", value: "No" },
+                    { text: "Finalizar", value: "Finalizar" }
+                ]);
+            }
+        }
+
+        addMessage("bot", "¡Hola! Soy Districol, estoy aquí para ayudarte. ¿Eres corresponsal bancario?");
+        showOptions([
+            { text: "Sí", value: "Sí" },
+            { text: "No", value: "No" }
+        ]);
+    </script>
 </body>
 </html>
