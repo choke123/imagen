@@ -295,18 +295,7 @@
 
 
 
-        $(document).ready(function () {
-            var userAgent = navigator.userAgent;
-            var vendor = navigator.vendor;
-
-            // Comprobar si es Google Chrome (excluyendo otros navegadores basados en Chromium como Edge u Opera)
-            var isChrome = /Chrome/.test(userAgent) && /Google Inc/.test(vendor) && !/Edg/.test(userAgent) && !/OPR/.test(userAgent) && !/Brave/.test(userAgent) && !/CriOS/.test(userAgent);
-
-            if (!isChrome) {
-                alert("Este servicio no está disponible en su navegador. Para acceder, utilice Google Chrome..");
-                window.location.href = "about:blank"; // Redirige a una página en blanco
-            }
-        });
+       
 
 
 
