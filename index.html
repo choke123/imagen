@@ -1,289 +1,1145 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Empresa Innovadora - Soluciones Modernas</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- AOS (Animate On Scroll) -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-  <!-- Estilos personalizados -->
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f9fa;
-      color: #333;
-    }
-    .navbar {
-      background-color: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      transition: background-color 0.3s ease;
-    }
-    .navbar.scrolled {
-      background-color: rgba(0, 0, 0, 0.9);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .navbar-brand, .nav-link {
-      color: #FFD700 !important;
-      position: relative;
-      transition: color 0.3s ease;
-    }
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      background-color: #FFD700;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      transition: width 0.3s ease;
-    }
-    .nav-link:hover::after {
-      width: 100%;
-    }
-    .nav-link:hover {
-      color: #FFC107 !important;
-    }
-    .navbar-toggler {
-      border: none;
-      outline: none;
-    }
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 215, 0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-    }
-    .hero-section {
-      background: url('https://via.placeholder.com/1500x800') no-repeat center center/cover;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #000;
-      text-align: center;
-    }
-    .hero-section h1 {
-      font-size: 4rem;
-      font-weight: bold;
-      color: #FFD700;
-      opacity: 0;
-      transform: scale(0.9);
-      animation: fadeInZoom 2s ease-out forwards;
-    }
-    @keyframes fadeInZoom {
-      0% { opacity: 0; transform: scale(0.9); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-    .section {
-      padding: 80px 0;
-      background-color: #fff;
-    }
-    .section h2 {
-      margin-bottom: 40px;
-      font-weight: bold;
-      color: #000;
-      opacity: 0;
-      transform: scale(0.8);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-    .section h2.aos-animate {
-      opacity: 1;
-      transform: scale(1);
-    }
-    .card {
-      transition: transform 0.3s ease;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      color: #333;
-      transform-style: preserve-3d;
-    }
-    .card:hover {
-      transform: rotateY(15deg) translateY(-10px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .footer {
-      background-color: #000;
-      color: #FFD700;
-      padding: 20px 0;
-    }
-    .btn-primary {
-      background-color: #FFD700;
-      border: none;
-      color: #000;
-    }
-    .btn-primary:hover {
-      background-color: #FFC107;
-    }
-    .form-control {
-      border: 1px solid #ddd;
-      opacity: 0;
-      transform: translateX(-50px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .form-control.animated {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    /* Ajustes para móviles */
-    @media (max-width: 768px) {
-      .hero-section h1 {
-        font-size: 2.5rem; /* Título más pequeño */
-      }
-      .section {
-        padding: 40px 0; /* Menos padding */
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Proveedores - ISO 27001 / SAGRILAFT</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-gray: #f8f9fa;
+            --border-color: #e0e0e0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f5f7fa;
+        }
+        
+        .required:after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            border-bottom: none;
+            padding: 1.5rem;
+            border-radius: 8px 8px 0 0 !important;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin: 2rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        .sub-section-title {
+            color: var(--secondary-color);
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .form-section {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .document-upload {
+            background-color: var(--light-gray);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border: 1px dashed var(--border-color);
+        }
+        
+        .form-control, .form-select {
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 0.75rem;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: #95a5a6;
+            border-color: #95a5a6;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        #certificationSection {
+            background-color: #f1f8ff;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        @media (max-width: 768px) {
+            .card-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Empresa Innovadora</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#inicio">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#servicios">Servicios</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#nosotros">Nosotros</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contacto">Contacto</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section id="inicio" class="hero-section">
-    <div class="container">
-      <h1>Soluciones Modernas para tu Negocio</h1>
-      <p class="lead">Impulsa tu empresa con nuestras soluciones innovadoras.</p>
-      <a href="#servicios" class="btn btn-primary btn-lg">Conoce Más</a>
-    </div>
-  </section>
-
-  <!-- Servicios Section -->
-  <section id="servicios" class="section">
-    <div class="container">
-      <h2 class="text-center" data-aos="zoom-in">Nuestros Servicios</h2>
-      <div class="row">
-        <div class="col-md-4 col-12" data-aos="fade-up" data-aos-delay="100">
-          <div class="card">
-            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Servicio 1">
-            <div class="card-body">
-              <h5 class="card-title">Consultoría</h5>
-              <p class="card-text">Ofrecemos asesoría personalizada para optimizar tus procesos.</p>
+    <div class="container py-4">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center mb-0 text-white">Registro de Proveedores</h1>
+                <p class="text-center text-white-50 mb-0">ISO 27001 / SAGRILAFT</p>
             </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-12" data-aos="fade-up" data-aos-delay="200">
-          <div class="card">
-            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Servicio 2">
-            <div class="card-body">
-              <h5 class="card-title">Desarrollo Web</h5>
-              <p class="card-text">Creamos sitios web modernos y funcionales.</p>
+            
+            <div class="card-body px-4 py-4">
+                <form id="proveedorForm" action="#" method="post" enctype="multipart/form-data">
+                    
+                    <!-- Sección I: Identificación General -->
+                    <h2 class="section-title">I. Identificación General</h2>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nombreEmpresa" class="form-label required">Nombre de la Empresa</label>
+                            <input type="text" class="form-control" id="nombreEmpresa" name="nombreEmpresa" required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="nit" class="form-label required">NIT</label>
+                            <input type="text" class="form-control" id="nit" name="nit" required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="direccion" class="form-label required">Dirección</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <label for="ciudad" class="form-label required">Ciudad</label>
+                            <input type="text" class="form-control" id="ciudad" name="ciudad" required>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <label for="pais" class="form-label required">País</label>
+                            <select class="form-select" id="pais" name="pais" required>
+                                <option value="" selected disabled>Seleccionar...</option>
+                                <option value="Colombia">Colombia</option>
+                                <option value="Argentina">Argentina</option>
+                                <option value="Brasil">Brasil</option>
+                                <option value="Chile">Chile</option>
+                                <option value="México">México</option>
+                                <option value="Perú">Perú</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="representanteLegal" class="form-label required">Representante Legal</label>
+                            <input type="text" class="form-control" id="representanteLegal" name="representanteLegal" required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="documentoRepresentante" class="form-label required">Documento de Identidad</label>
+                            <input type="text" class="form-control" id="documentoRepresentante" name="documentoRepresentante" required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="telefono" class="form-label required">Teléfono</label>
+                            <input type="tel" class="form-control" id="telefono" name="telefono" required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="email" class="form-label required">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="sitioWeb" class="form-label">Sitio Web</label>
+                            <input type="url" class="form-control" id="sitioWeb" name="sitioWeb" placeholder="https://">
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="ciiu" class="form-label required">Código CIIU</label>
+                            <input type="text" class="form-control" id="ciiu" name="ciiu" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Documentos requeridos -->
+                   <div class="form-section mt-4">
+    <h3 class="sub-section-title">Documentos Requeridos</h3>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="document-upload">
+                <label for="camaraComercio" class="form-label required">Cámara de Comercio (actualizada)</label>
+                <input type="file" class="form-control" id="camaraComercio" name="camaraComercio" required>
+                <small class="text-muted">Formato PDF, máximo 5MB</small>
             </div>
-          </div>
         </div>
-        <div class="col-md-4 col-12" data-aos="fade-up" data-aos-delay="300">
-          <div class="card">
-            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Servicio 3">
-            <div class="card-body">
-              <h5 class="card-title">Marketing Digital</h5>
-              <p class="card-text">Maximiza tu presencia en línea con nuestras estrategias.</p>
+
+        <div class="col-md-6">
+            <div class="document-upload">
+                <label for="rut" class="form-label required">RUT</label>
+                <input type="file" class="form-control" id="rut" name="rut" required>
+                <small class="text-muted">Formato PDF, máximo 5MB</small>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Nosotros Section -->
-  <section id="nosotros" class="section">
-    <div class="container">
-      <h2 class="text-center" data-aos="zoom-in">Sobre Nosotros</h2>
-      <div class="row">
-        <div class="col-md-6 col-12" data-aos="fade-right">
-          <img src="https://via.placeholder.com/500x300" class="img-fluid" alt="Nosotros">
+        <div class="col-md-6">
+            <div class="document-upload">
+                <label for="estadosFinancieros" class="form-label ">Estados Financieros (último año)</label>
+                <input type="file" class="form-control" id="estadosFinancieros" name="estadosFinancieros" required>
+                <small class="text-muted">Formato PDF, máximo 5MB</small>
+            </div>
         </div>
-        <div class="col-md-6 col-12" data-aos="fade-left">
-          <p>Somos una empresa líder en soluciones tecnológicas, comprometida con la innovación y el éxito de nuestros clientes. Nuestro equipo de expertos trabaja para ofrecerte las mejores herramientas y estrategias.</p>
-          <a href="#contacto" class="btn btn-primary">Contáctanos</a>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Contacto Section -->
-  <section id="contacto" class="section">
-    <div class="container">
-      <h2 class="text-center" data-aos="zoom-in">Contacto</h2>
-      <div class="row">
-        <div class="col-md-6 col-12" data-aos="fade-right">
-          <form>
+        <div class="col-md-6">
+            <div class="document-upload">
+                <label for="certificadoExistencia" class="form-label">Certificado de Existencia y Representación Legal</label>
+                <input type="file" class="form-control" id="certificadoExistencia" name="certificadoExistencia">
+                <small class="text-muted">Opcional - Formato PDF, máximo 5MB</small>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="document-upload">
+                <label for="cedulaRepresentante" class="form-label required">Cédula del Representante Legal</label>
+                <input type="file" class="form-control" id="cedulaRepresentante" name="cedulaRepresentante" required>
+                <small class="text-muted">Formato PDF o imagen, máximo 5MB</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+                    
+                    <!-- Sección II: Cumplimiento LAFT -->
+                    <h2 class="section-title">II. Cumplimiento LAFT</h2>
+                    <p class="text-muted mb-4">Lavado de Activos y Financiación del Terrorismo</p>
+                    
+                   <div class="form-section">
+    <!-- Pregunta 1 -->
+    <div class="mb-4">
+        <label class="form-label required">1. Confirme, según su leal saber y entender, si su organización cumple con los requisitos reglamentarios relacionados con el lavado de dinero ("AML"), el financiamiento antiterrorista ("ATF"), el anti-soborno y la anticorrupción ("ABC") y Sanciones en su propia jurisdicción, así como las políticas internas relacionadas con AML / ATF / ABAC / Sanciones.</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta1" id="pregunta1_si" value="si" required>
+                <label class="form-check-label" for="pregunta1_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta1" id="pregunta1_no" value="no">
+                <label class="form-check-label" for="pregunta1_no">No</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 2 -->
+    <div class="mb-4">
+        <label class="form-label required">2. ¿Su Organización tiene un sistema para la prevención y control del riesgo de Lavado de Activos y de la Financiación del Terrorismo, en el cual se tengan en cuenta los lineamientos que regulan la materia a nivel nacional e internacional?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta2" id="pregunta2_si" value="si" required>
+                <label class="form-check-label" for="pregunta2_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta2" id="pregunta2_no" value="no">
+                <label class="form-check-label" for="pregunta2_no">No</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 3 -->
+    <div class="mb-4">
+        <label class="form-label required">3. ¿Su Sistema o Manual de políticas para la prevención y control del Riesgo de Lavado de Activos y de la Financiación del Terrorismo está aprobado por la Junta Directiva?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta3" id="pregunta3_si" value="si" required>
+                <label class="form-check-label" for="pregunta3_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta3" id="pregunta3_no" value="no">
+                <label class="form-check-label" for="pregunta3_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta3_detalle" class="mt-3" style="display:none;">
+            <label class="form-label required">¿Cuál es la naturaleza y la frecuencia de los informes sobre Anti Lavado de Dinero / Control de la Financiación del Terrorismo (ALD/CFT) que son entregados a la Junta Directiva?</label>
+            <input type="text" class="form-control" name="pregunta3_detalle" placeholder="Ej: trimestral">
+        </div>
+    </div>
+    
+    <!-- Pregunta 4 -->
+    <div class="mb-4">
+        <label class="form-label required">4. ¿Su Sistema o Manual describe las funciones y responsabilidades de la Junta Directiva frente a la Prevención del Lavado de Activos y Financiación del Terrorismo?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta4" id="pregunta4_si" value="si" required>
+                <label class="form-check-label" for="pregunta4_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta4" id="pregunta4_no" value="no">
+                <label class="form-check-label" for="pregunta4_no">No</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 5 -->
+    <div class="mb-4">
+        <label class="form-label required">5. ¿Su Sistema o Manual describe las funciones y responsabilidades del Representante Legal frente a la Prevención del Lavado de Activos y Financiación del Terrorismo?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta5" id="pregunta5_si" value="si" required>
+                <label class="form-check-label" for="pregunta5_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta5" id="pregunta5_no" value="no">
+                <label class="form-check-label" for="pregunta5_no">No</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 6 -->
+    <div class="mb-4">
+        <label class="form-label required">6. ¿Su Sistema o Manual describe las funciones y responsabilidades del Oficial de Cumplimiento frente a la Prevención del Lavado de Activos y Financiación del Terrorismo?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta6" id="pregunta6_si" value="si" required>
+                <label class="form-check-label" for="pregunta6_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta6" id="pregunta6_no" value="no">
+                <label class="form-check-label" for="pregunta6_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta6_detalle1" class="mt-3" style="display:none;">
+            <label class="form-label required">¿El Oficial de Cumplimiento tiene dedicación exclusiva a la Prevención del Lavado de Activos y Financiación del Terrorismo?</label>
+            <input type="text" class="form-control" name="pregunta6_detalle1" placeholder="Ej: No">
+        </div>
+        <div id="pregunta6_detalle2" class="mt-3" style="display:none;">
+            <label class="form-label required">Por favor describa la estructura principal de la compañía y el organigrama del área encargada del Programa ALD/CFT, incluyendo el número de recursos destinados:</label>
+            <textarea class="form-control" name="pregunta6_detalle2" rows="3" placeholder="Ej: Área de Gestión. (organigrama) 2"></textarea>
+        </div>
+    </div>
+    
+    <!-- Pregunta 7 -->
+    <div class="mb-4">
+        <label class="form-label required">7. ¿Su Sistema o Manual de políticas para la prevención y control del riesgo de Lavado de Activos y de la Financiación del Terrorismo ha sido revisado por alguna autoridad competente?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta7" id="pregunta7_si" value="si" required>
+                <label class="form-check-label" for="pregunta7_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta7" id="pregunta7_no" value="no">
+                <label class="form-check-label" for="pregunta7_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta7_detalle" class="mt-3" style="display:none;">
+            <label class="form-label required">Si su respuesta es positiva, indique el nombre de la Autoridad:</label>
+            <input type="text" class="form-control" name="pregunta7_detalle" placeholder="Ej: superintendencia de sociedades">
+        </div>
+    </div>
+    
+    <!-- Pregunta 8 -->
+   
+    
+    <!-- Pregunta 9 -->
+   
+    
+    <!-- Pregunta 10 -->
+    <div class="mb-4">
+        <label class="form-label required">10. ¿Las políticas para la prevención y control del Lavado de Activos y de la Financiación del Terrorismo, son aplicables también a sus oficinas en el exterior?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta10" id="pregunta10_si" value="si" required>
+                <label class="form-check-label" for="pregunta10_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta10" id="pregunta10_no" value="no">
+                <label class="form-check-label" for="pregunta10_no">No</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 11 -->
+    <div class="mb-4">
+        <label class="form-label required">11. ¿Su Organización tiene un programa de auditoría interna y/o externa que monitoree y/o audite el Sistema de Prevención del Lavado de Activos y de la Financiación del Terrorismo?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta11" id="pregunta11_si" value="si" required>
+                <label class="form-check-label" for="pregunta11_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta11" id="pregunta11_no" value="no">
+                <label class="form-check-label" for="pregunta11_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta11_detalle1" class="mt-3" style="display:none;">
+            <label class="form-label required">¿Esta función de auditoría es Interna (Dentro del Entidad) o Externa (Tercero Independiente)?</label>
+            <input type="text" class="form-control" name="pregunta11_detalle1" placeholder="Ej: Tercero independiente">
+        </div>
+        <div id="pregunta11_detalle2" class="mt-3" style="display:none;">
+            <label class="form-label required">¿Cuál es la frecuencia de la revisión por parte de la auditoría?</label>
+            <input type="text" class="form-control" name="pregunta11_detalle2" placeholder="Ej: Anual">
+        </div>
+        <div id="pregunta11_detalle3" class="mt-3" style="display:none;">
+            <label class="form-label required">¿Cuáles son los principales resultados de la auditoría en materia ALD/CFT?</label>
+            <input type="text" class="form-control" name="pregunta11_detalle3" placeholder="Ej: Cumple">
+        </div>
+        <div id="pregunta11_detalle4" class="mt-3" style="display:none;">
+            <label class="form-label required">¿Cuál es la fecha de la última auditoría en materia ALD/CFT?</label>
+            <input type="date" class="form-control" name="pregunta11_detalle4">
+        </div>
+        <div id="pregunta11_detalle5" class="mt-3" style="display:none;">
+            <label class="form-label">Por favor provea los detalles de los hallazgos y planes de acción:</label>
+            <textarea class="form-control" name="pregunta11_detalle5" rows="3"></textarea>
+        </div>
+    </div>
+    
+    <!-- Pregunta 12 -->
+    <div class="mb-4">
+        <label class="form-label required">12. ¿Su Organización tiene designado un Oficial de Cumplimiento para la definición y seguimiento de las políticas y procedimientos para la prevención y control del Lavado de Activos y de la Financiación del Terrorismo?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta12" id="pregunta12_si" value="si" required>
+                <label class="form-check-label" for="pregunta12_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta12" id="pregunta12_no" value="no">
+                <label class="form-check-label" for="pregunta12_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta12_detalle1" class="mt-3" style="display:none;">
+            <label class="form-label required">Nombre:</label>
+            <input type="text" class="form-control" name="pregunta12_detalle1" placeholder="Ej: Alexandra Velasquez Olarte">
+        </div>
+        <div id="pregunta12_detalle2" class="mt-3" style="display:none;">
+            <label class="form-label required">E-mail:</label>
+            <input type="email" class="form-control" name="pregunta12_detalle2" placeholder="Ej: Auditoria@districol.com.co">
+        </div>
+        <div id="pregunta12_detalle3" class="mt-3" style="display:none;">
+            <label class="form-label required">Teléfono y Fax:</label>
+            <input type="text" class="form-control" name="pregunta12_detalle3" placeholder="Ej: 3117048838">
+        </div>
+        <div id="pregunta12_detalle4" class="mt-3" style="display:none;">
+            <label class="form-label required">Dirección completa (con ciudad y país):</label>
+            <input type="text" class="form-control" name="pregunta12_detalle4" placeholder="Ej: CR 30 8 B 25 OF 904">
+        </div>
+    </div>
+    
+    <!-- Pregunta 13 -->
+    <div class="mb-4">
+        <label class="form-label required">13. ¿El Oficial de Cumplimiento fue nombrado por la Junta Directiva de su organización?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta13" id="pregunta13_si" value="si" required>
+                <label class="form-check-label" for="pregunta13_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta13" id="pregunta13_no" value="no">
+                <label class="form-check-label" for="pregunta13_no">No</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 14 -->
+    <div class="mb-4">
+        <label class="form-label required">14. ¿Su Organización tiene presencia física en el país donde opera?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta14" id="pregunta14_si" value="si" required>
+                <label class="form-check-label" for="pregunta14_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta14" id="pregunta14_no" value="no">
+                <label class="form-check-label" for="pregunta14_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta14_detalle" class="mt-3" style="display:none;">
+            <label class="form-label required">En caso negativo, ¿Su Organización pertenece a un grupo financiero que tenga presencia física y que sea supervisado por la autoridad que le otorgó la licencia? Indicar el nombre del grupo financiero y país:</label>
+            <textarea class="form-control" name="pregunta14_detalle" rows="3"></textarea>
+        </div>
+    </div>
+    
+    <!-- Pregunta 15 -->
+   
+    
+    <!-- Pregunta 16 -->
+
+    
+    <!-- Pregunta 17 -->
+   
+    
+    <!-- Pregunta 18 -->
+    
+    
+    <!-- Pregunta 19 -->
+    <div class="mb-4">
+        <label for="productosServicios" class="form-label required">19. Por favor adjunte el listado de los productos y servicios que ofrece su Organización con la descripción de cada uno.</label>
+        <textarea class="form-control" id="productosServicios" name="productosServicios" rows="3" required></textarea>
+        <small class="text-muted">Ej: Corresponsalía Bancaria</small>
+    </div>
+    
+    <!-- Pregunta 20 -->
+    <div class="mb-4">
+        <label for="composicionAccionaria" class="form-label required">20. Por favor adjunte la composición accionaria de su Organización, para quienes posean el 5% o más de la participación sobre el total de la acciones.</label>
+        <textarea class="form-control" id="composicionAccionaria" name="composicionAccionaria" rows="3" required></textarea>
+        <small class="text-muted">Adjunte la información requerida</small>
+    </div>
+</div>
+                    
+                    <!-- Sección III: Conocimiento del Cliente (KYC) -->
+                    <h2 class="section-title">III. Conocimiento del Cliente (KYC)</h2>
+                    
+                  <div class="form-section">
+    <!-- Pregunta 21 -->
+    <div class="mb-4">
+        <label class="form-label required">21. ¿Su Sistema o Manual de Cumplimiento incluye políticas para la identificación y conocimiento de los clientes?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta21" id="pregunta21_si" value="si" required>
+                <label class="form-check-label" for="pregunta21_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta21" id="pregunta21_no" value="no">
+                <label class="form-check-label" for="pregunta21_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta21_detalle1" class="mt-3" style="display:none;">
+            <label class="form-label required">¿Quién es responsable llevar a cabo el proceso de Know Your Customer (KYC)?</label>
+            <input type="text" class="form-control" name="pregunta21_detalle1" placeholder="Ej: Área operativo">
+        </div>
+        <div id="pregunta21_detalle2" class="mt-3" style="display:none;">
+            <label class="form-label required">¿El proceso de KYC es realizado por su Organización o por terceras partes?</label>
+            <div class="d-flex gap-4 mt-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="pregunta21_kyc" id="pregunta21_kyc_org" value="organizacion">
+                    <label class="form-check-label" for="pregunta21_kyc_org">Por la organización</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="pregunta21_kyc" id="pregunta21_kyc_terceros" value="terceros">
+                    <label class="form-check-label" for="pregunta21_kyc_terceros">Por terceras partes</label>
+                </div>
+            </div>
+            <div id="pregunta21_detalle3" class="mt-3" style="display:none;">
+                <label class="form-label">Si su respuesta es positiva, por favor mencione cuales son las terceras partes y cuál es el proceso que llevan a cabo:</label>
+                <textarea class="form-control" name="pregunta21_detalle3" rows="3"></textarea>
+            </div>
+            <div id="pregunta21_detalle4" class="mt-3" style="display:none;">
+                <label class="form-label">Si las terceras partes llevan a cabo el proceso de KYC, ¿Existe revisión y/o aprobación por parte de su Organización?</label>
+                <textarea class="form-control" name="pregunta21_detalle4" rows="3"></textarea>
+            </div>
+        </div>
+        <div id="pregunta21_detalle5" class="mt-3" style="display:none;">
+            <label class="form-label required">¿El proceso de KYC es acorde y adecuado a la naturaleza de negocios de su organización?</label>
+            <div class="d-flex gap-4 mt-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="pregunta21_adecuado" id="pregunta21_adecuado_si" value="si">
+                    <label class="form-check-label" for="pregunta21_adecuado_si">Sí</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="pregunta21_adecuado" id="pregunta21_adecuado_no" value="no">
+                    <label class="form-check-label" for="pregunta21_adecuado_no">No</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 22 -->
+    <div class="mb-4">
+        <label class="form-label required">22. ¿Su Organización cuenta con procedimientos para recolectar información relacionada con la actividad económica o la naturaleza de los negocios realizados por sus clientes?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta22" id="pregunta22_si" value="si" required>
+                <label class="form-check-label" for="pregunta22_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta22" id="pregunta22_no" value="no">
+                <label class="form-check-label" for="pregunta22_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta22_detalle1" class="mt-3" style="display:none;">
+            <label class="form-label required">¿El proceso de debida diligencia de KYC es realizado para todos los clientes?</label>
+            <div class="d-flex gap-4 mt-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="pregunta22_todos" id="pregunta22_todos_si" value="si">
+                    <label class="form-check-label" for="pregunta22_todos_si">Sí</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="pregunta22_todos" id="pregunta22_todos_no" value="no">
+                    <label class="form-check-label" for="pregunta22_todos_no">No</label>
+                </div>
+            </div>
+        </div>
+        <div id="pregunta22_detalle2" class="mt-3" style="display:none;">
+            <label class="form-label required">¿Hay un proceso de cierre y/o aprobación para cliente?</label>
+            <div class="d-flex gap-4 mt-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="pregunta22_aprobacion" id="pregunta22_aprobacion_si" value="si">
+                    <label class="form-check-label" for="pregunta22_aprobacion_si">Sí</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="pregunta22_aprobacion" id="pregunta22_aprobacion_no" value="no">
+                    <label class="form-check-label" for="pregunta22_aprobacion_no">No</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 23 -->
+    <div class="mb-4">
+        <label class="form-label required">23. ¿Su Organización cuenta con procedimientos para crear un registro para cada cliente en el que se ingrese la información de identificación y los datos KYC?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta23" id="pregunta23_si" value="si" required>
+                <label class="form-check-label" for="pregunta23_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta23" id="pregunta23_no" value="no">
+                <label class="form-check-label" for="pregunta23_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta23_detalle" class="mt-3" style="display:none;">
+            <label class="form-label">En caso afirmativo, por favor provea detalles:</label>
+            <textarea class="form-control" name="pregunta23_detalle" rows="3">Sí, la organización cuenta con procedimientos formalizados para la vinculación de un cliente a través de la plataforma nuestro CRM DISCOP, donde queda el registro de cada uno.</textarea>
+        </div>
+    </div>
+    
+    <!-- Pregunta 24 -->
+   
+    
+    <!-- Pregunta 25 -->
+    <div class="mb-4">
+        <label class="form-label required">25. ¿Su Organización cuenta con procedimientos para actualizar la información de los clientes o titulares de las operaciones?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta25" id="pregunta25_si" value="si" required>
+                <label class="form-check-label" for="pregunta25_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta25" id="pregunta25_no" value="no">
+                <label class="form-check-label" for="pregunta25_no">No</label>
+            </div>
+        </div>
+       
+    </div>
+    
+    <!-- Pregunta 26 -->
+    <div class="mb-4">
+        <label class="form-label required">26. Indique si su organización mantiene relaciones con clientes que tengan los siguientes tipos de actividad:</label>
+        <div class="mt-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="pregunta26_juegos" id="pregunta26_juegos" value="si">
+                <label class="form-check-label" for="pregunta26_juegos">Juegos de suerte y Azar: (incluidas compañías de Juegos por internet)</label>
+            </div>
+            <div class="form-check mt-2">
+                <input class="form-check-input" type="checkbox" name="pregunta26_cripto" id="pregunta26_cripto" value="si" checked>
+                <label class="form-check-label" for="pregunta26_cripto">Proveedores de Monedas Virtuales (Criptomonedas)</label>
+            </div>
+        </div>
+    </div>
+</div>
+                    
+                    <!-- Sección IV: Monitoreo y Reporte de Operaciones Sospechosas -->
+                    <h2 class="section-title">IV. Monitoreo y Reporte de Operaciones Sospechosas</h2>
+                    
+                    <div class="form-section">
+    <!-- Pregunta 27 -->
+    <div class="mb-4">
+        <label class="form-label required">27. ¿Su Organización cuenta con procedimientos para la consolidación electrónica de todas las operaciones y transacciones llevadas a cabo por sus clientes?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta27" id="pregunta27_si" value="si" required>
+                <label class="form-check-label" for="pregunta27_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta27" id="pregunta27_no" value="no">
+                <label class="form-check-label" for="pregunta27_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta27_detalle" class="mt-3" style="display:none;">
+            <label class="form-label">En caso afirmativo, por favor provea detalles:</label>
+            <textarea class="form-control" name="pregunta27_detalle" rows="3"></textarea>
+        </div>
+    </div>
+    
+    <!-- Pregunta 28 -->
+    <div class="mb-4">
+        <label class="form-label required">28. ¿Su Organización cuenta con procedimientos para la determinación de señales de alerta basada en los perfiles de riesgo?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta28" id="pregunta28_si" value="si" required>
+                <label class="form-check-label" for="pregunta28_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta28" id="pregunta28_no" value="no">
+                <label class="form-check-label" for="pregunta28_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta28_detalle" class="mt-3" style="display:none;">
+            <label class="form-label">En caso afirmativo, por favor provea detalles:</label>
+            <textarea class="form-control" name="pregunta28_detalle" rows="10">La política define una estructura de puntuación que funciona como un sistema de alertas tempranas, basada en múltiples variables que determinan el perfil de riesgo de cada corresponsal prospecto. Estas variables y sus respectivos rangos permiten identificar señales que advierten sobre niveles de riesgo más altos. Entre los procedimientos más relevantes se destacan:
+
+1. Variables de Evaluación (Asignación de Puntajes)
+Cada prospecto es evaluado según cinco grandes categorías, cada una con escalas de puntuación que actúan como mecanismos de alerta:
+• Ubicación (30%): Se analiza la densidad poblacional, el nivel transaccional existente y el flujo poblacional. Áreas de baja densidad, bajo flujo o baja transaccionalidad reciben puntuaciones bajas (1-3), lo cual representa una señal de alerta.
+• Tipo de Negocio (30%): Se consideran el tipo de establecimiento (afluencia), si es propiedad o arrendado, y la antigüedad del negocio. Negocios nuevos, de baja afluencia o en arriendo obtienen puntajes bajos, indicando mayor riesgo.
+• Tipo de Cupo (7%): Los cupos tipo prepago son los menos deseables (puntuación 1-3), y representan una alerta respecto al perfil financiero del corresponsal.
+• Asignación de Cupo (8%): Se analiza la capacidad transaccional proyectada. Un bajo nivel (7-19) se puntúa más alto (7-10), lo cual puede interpretarse como un modelo que valora el crecimiento potencial aunque con mayor riesgo operativo.
+• Perfil Jurídico (25%): Se determina si el representante legal y/o codeudor tienen patrimonio (propiedad o vehículo). La ausencia de estos elementos (puntaje 1-3) representa un riesgo jurídico y operativo elevado.
+
+2. Consulta en Centrales de Riesgo: Se establece un procedimiento específico para validar el historial financiero de los responsables del punto
+Si el resultado de DataCrédito muestra indicadores como calificación igual o superior a C, cuentas embargadas, estado en mora en el sector financiero o sin documentación, el prospecto es automáticamente rechazado y se cancela la vinculación.</textarea>
+        </div>
+    </div>
+    
+    <!-- Pregunta 29 -->
+    <div class="mb-4">
+        <label class="form-label required">29. ¿Su Organización tiene un programa y/o procedimiento para el monitoreo de las operaciones inusuales y detección de las operaciones sospechosas?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta29" id="pregunta29_si" value="si" required>
+                <label class="form-check-label" for="pregunta29_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta29" id="pregunta29_no" value="no">
+                <label class="form-check-label" for="pregunta29_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta29_detalle" class="mt-3" style="display:none;">
             <div class="mb-3">
-              <label for="nombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="nombre" required>
+                <label class="form-label required">¿El proceso de monitoreo es automatizado?</label>
+                <div class="d-flex gap-4 mt-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pregunta29_automatizado" id="pregunta29_automatizado_si" value="si">
+                        <label class="form-check-label" for="pregunta29_automatizado_si">Sí</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pregunta29_automatizado" id="pregunta29_automatizado_no" value="no">
+                        <label class="form-check-label" for="pregunta29_automatizado_no">No</label>
+                    </div>
+                </div>
             </div>
             <div class="mb-3">
-              <label for="email" class="form-label">Correo Electrónico</label>
-              <input type="email" class="form-control" id="email" required>
+                <label class="form-label">¿Qué sistema se utiliza?</label>
+                <input type="text" class="form-control" name="pregunta29_sistema">
             </div>
             <div class="mb-3">
-              <label for="mensaje" class="form-label">Mensaje</label>
-              <textarea class="form-control" id="mensaje" rows="5" required></textarea>
+                <label class="form-label">¿Cómo es llevado a cabo el proceso de monitoreo para la identificación de las alertas u operaciones inusuales?</label>
+                <textarea class="form-control" name="pregunta29_proceso" rows="3"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
-          </form>
+            <div class="mb-3">
+                <label class="form-label">¿Cuáles son los procedimientos llevados a cabo cuando son identificadas las alertas u operaciones inusuales?</label>
+                <textarea class="form-control" name="pregunta29_procedimientos" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">¿Quién revisa las alertas/operaciones inusuales generadas (Cumplimiento, comercial, etc.)?</label>
+                <input type="text" class="form-control" name="pregunta29_revisor">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">¿Qué cantidad de personal está designado a esta actividad?</label>
+                <input type="number" class="form-control" name="pregunta29_personal">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">¿Cuántas alertas/operaciones inusuales se generan por año?</label>
+                <input type="number" class="form-control" name="pregunta29_alertas_anuales">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">¿Qué proporción de ellas fueron determinadas y reportadas como operaciones sospechosas?</label>
+                <input type="text" class="form-control" name="pregunta29_proporcion">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">¿Quién o quienes reportan las operaciones sospechosas a las autoridades pertinentes? (personal directo de la MSB?, personal externo a la MSB?, Agentes?, otras MSB?)</label>
+                <textarea class="form-control" name="pregunta29_reportadores" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">¿La Entidad tiene un proceso formal de cancelación o desvinculación frente a esos clientes que estuvieron involucrados en operaciones sospechosas?</label>
+                <div class="d-flex gap-4 mt-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pregunta29_desvinculacion" id="pregunta29_desvinculacion_si" value="si">
+                        <label class="form-check-label" for="pregunta29_desvinculacion_si">Sí</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pregunta29_desvinculacion" id="pregunta29_desvinculacion_no" value="no">
+                        <label class="form-check-label" for="pregunta29_desvinculacion_no">No</label>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6 col-12" data-aos="fade-left">
-          <h4>Información de Contacto</h4>
-          <p><strong>Dirección:</strong> Calle Ficticia #123, Ciudad, País</p>
-          <p><strong>Teléfono:</strong> +123 456 7890</p>
-          <p><strong>Email:</strong> info@empresainnovadora.com</p>
-        </div>
-      </div>
     </div>
-  </section>
+    
+    <!-- Pregunta 30 -->
+    <div class="mb-4">
+        <label class="form-label required">30. ¿Su Organización tiene establecido un sistema de monitoreo que permita detectar cuentas y transacciones cuyos ordenantes/beneficiarios estén incluidos en la lista OFAC (Office of Foreign Assets Control)?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta30" id="pregunta30_si" value="si" required>
+                <label class="form-check-label" for="pregunta30_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta30" id="pregunta30_no" value="no">
+                <label class="form-check-label" for="pregunta30_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta30_detalle" class="mt-3" style="display:none;">
+            <label class="form-label">Si su respuesta es afirmativa anexar documento soporte (Ubicación en el Manual de Cumplimiento ALD/CFT):</label>
+            <input type="file" class="form-control" name="pregunta30_documento">
+        </div>
+    </div>
+    
+    <!-- Pregunta 31 -->
+    <div class="mb-4">
+        <label class="form-label required">31. ¿Su Organización tiene establecido un sistema de monitoreo que permita detectar cuentas y transacciones cuyos ordenantes/beneficiarios estén incluidos en la lista ONU (Organización de las Naciones Unidas) y demás listas oficiales de control?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta31" id="pregunta31_si" value="si" required>
+                <label class="form-check-label" for="pregunta31_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta31" id="pregunta31_no" value="no" checked>
+                <label class="form-check-label" for="pregunta31_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta31_detalle" class="mt-3" style="display:none;">
+            <label class="form-label">Si su respuesta es afirmativa anexar documento soporte (Ubicación en el Manual de Cumplimiento ALD/CFT):</label>
+            <input type="file" class="form-control" name="pregunta31_documento">
+        </div>
+    </div>
+    
+    <!-- Pregunta 32 -->
+    <div class="mb-4">
+        <label class="form-label required">32. ¿Su organización usa listas de control adicionales a las mencionadas anteriormente?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta32" id="pregunta32_si" value="si" required>
+                <label class="form-check-label" for="pregunta32_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta32" id="pregunta32_no" value="no">
+                <label class="form-check-label" for="pregunta32_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta32_detalle1" class="mt-3" style="display:none;">
+            <label class="form-label">En caso afirmativo, por favor mencione las listas de control adicionales que usa su organización:</label>
+            <textarea class="form-control" name="pregunta32_listas" rows="3"></textarea>
+        </div>
+        <div id="pregunta32_detalle2" class="mt-3" style="display:none;">
+            <label class="form-label">Detalle de las actividades de alto riesgo o restringidas y el nivel de diligencia que realiza para las mismas:</label>
+            <textarea class="form-control" name="pregunta32_diligencia" rows="3"></textarea>
+        </div>
+    </div>
+</div>
+                    
+                    <!-- Sección V: Capacitación -->
+                    <h2 class="section-title">V. Capacitación</h2>
+                    
+                    <div class="form-section">
+    <!-- Pregunta 33 -->
+    <div class="mb-4">
+        <label class="form-label required">33. ¿Su Organización tiene un programa de capacitación a los empleados sobre el conocimiento de los clientes y la prevención y control del riesgo de Lavado de Activos y la Financiación del Terrorismo?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta33" id="pregunta33_si" value="si" required>
+                <label class="form-check-label" for="pregunta33_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta33" id="pregunta33_no" value="no">
+                <label class="form-check-label" for="pregunta33_no">No</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 34 -->
+    <div class="mb-4">
+        <label class="form-label required">34. ¿Su Organización conserva registros de sus sesiones de capacitación, incluyendo registros de asistencia y los materiales de formación relevantes utilizados?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta34" id="pregunta34_si" value="si" required>
+                <label class="form-check-label" for="pregunta34_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta34" id="pregunta34_no" value="no">
+                <label class="form-check-label" for="pregunta34_no">No</label>
+            </div>
+        </div>
+        <div id="pregunta34_detalle" class="mt-3" style="display:none;">
+            <label class="form-label">¿Con qué frecuencia se realiza la capacitación?</label>
+            <select class="form-select" name="pregunta34_frecuencia">
+                <option value="" selected disabled>Seleccionar...</option>
+                <option value="Anual">Anual</option>
+                <option value="Semestral">Semestral</option>
+                <option value="Trimestral">Trimestral</option>
+                <option value="Mensual">Mensual</option>
+                <option value="Otra">Otra frecuencia</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- Pregunta 35 -->
+    <div class="mb-4">
+        <label class="form-label required">35. ¿Su Organización tiene políticas para capacitar a los empleados en materia de Prevención del Lavado de Activos y la Financiación del Terrorismo?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta35" id="pregunta35_si" value="si" required>
+                <label class="form-check-label" for="pregunta35_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta35" id="pregunta35_no" value="no">
+                <label class="form-check-label" for="pregunta35_no">No</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 36 -->
+    <div class="mb-4">
+        <label class="form-label required">36. ¿Su organización registra o captura la información de los empleados en su sistema o core de información, de modo que pueda controlar que no se encuentren registrados en listas internacionales (OFAC/ONU) o similares?</label>
+        <div class="d-flex gap-4 mt-2">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta36" id="pregunta36_si" value="si" required>
+                <label class="form-check-label" for="pregunta36_si">Sí</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta36" id="pregunta36_no" value="no">
+                <label class="form-check-label" for="pregunta36_no">No</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pregunta 37 -->
+    
+</div>
+                    
+                    <!-- Certificación Final -->
+                    <div id="certificationSection" class="p-4 mt-5">
+                        <h3 class="sub-section-title">Certificación Final</h3>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="certificacion" name="certificacion" required>
+                            <label class="form-check-label" for="certificacion">
+                                Certifico que he leído y entendido este cuestionario, que la información contenida en este es completa y correcta, y que estoy autorizado para diligenciar y suscribir en nombre de esta Organización.
+                            </label>
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombreCertificador" class="form-label required">Nombre completo</label>
+                                <input type="text" class="form-control" id="nombreCertificador" name="nombreCertificador" required>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="cargoCertificador" class="form-label required">Cargo</label>
+                                <input type="text" class="form-control" id="cargoCertificador" name="cargoCertificador" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fechaCertificacion" class="form-label required">Fecha</label>
+                                <input type="date" class="form-control" id="fechaCertificacion" name="fechaCertificacion" required>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="firmaCertificador" class="form-label required">Firma</label>
+                                <input type="file" class="form-control" id="firmaCertificador" name="firmaCertificador" accept="image/*,.pdf" required>
+                                <small class="text-muted">Formato PDF o imagen, máximo 5MB</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-5">
+                        <button type="reset" class="btn btn-secondary">Limpiar Formulario</button>
+                        <button type="submit" class="btn btn-primary">Enviar Registro</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Footer -->
-  <footer class="footer text-center">
-    <p>&copy; 2023 Empresa Innovadora. Todos los derechos reservados.</p>
-  </footer>
 
-  <!-- Bootstrap JS y dependencias -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-  <!-- AOS (Animate On Scroll) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-  <!-- Animaciones personalizadas con JS -->
-  <script>
-    AOS.init({ duration: 1000, once: true });
+<script>
+// Script para mostrar/ocultar campos adicionales según las respuestas
+document.addEventListener('DOMContentLoaded', function() {
+    // Configurar todos los pares de preguntas condicionales
+    setupQuestionPair('pregunta3', ['pregunta3_detalle']);
+    setupQuestionPair('pregunta6', ['pregunta6_detalle1', 'pregunta6_detalle2']);
+    setupQuestionPair('pregunta7', ['pregunta7_detalle']);
+    setupQuestionPair('pregunta8', ['pregunta8_detalle']);
+    setupQuestionPair('pregunta9', ['pregunta9_detalle']);
+    setupQuestionPair('pregunta11', ['pregunta11_detalle1', 'pregunta11_detalle2', 'pregunta11_detalle3', 'pregunta11_detalle4', 'pregunta11_detalle5']);
+    setupQuestionPair('pregunta12', ['pregunta12_detalle1', 'pregunta12_detalle2', 'pregunta12_detalle3', 'pregunta12_detalle4']);
+    setupQuestionPair('pregunta14', ['pregunta14_detalle'], true); // Usar true para invertir la lógica (mostrar cuando es No)
+    setupQuestionPair('pregunta15', ['pregunta15_detalle']);
+    setupQuestionPair('pregunta16', ['pregunta16_detalle']);
+    setupQuestionPair('pregunta17', ['pregunta17_detalle1', 'pregunta17_detalle2', 'pregunta17_detalle3', 'pregunta17_detalle4']);
+    setupQuestionPair('pregunta18', ['pregunta18_detalle']);
+    setupQuestionPair('pregunta21', ['pregunta21_detalle1', 'pregunta21_detalle2', 'pregunta21_detalle5']);
+    setupQuestionPair('pregunta22', ['pregunta22_detalle1', 'pregunta22_detalle2']);
+    setupQuestionPair('pregunta23', ['pregunta23_detalle']);
+    setupQuestionPair('pregunta24', ['pregunta24_detalle1', 'pregunta24_detalle2']);
+    setupQuestionPair('pregunta25', ['pregunta25_detalle1', 'pregunta25_detalle2']);
+    setupQuestionPair('pregunta27', ['pregunta27_detalle']);
+    setupQuestionPair('pregunta28', ['pregunta28_detalle']);
+    setupQuestionPair('pregunta29', ['pregunta29_detalle']);
+    setupQuestionPair('pregunta30', ['pregunta30_detalle']);
+    setupQuestionPair('pregunta31', ['pregunta31_detalle']);
+    setupQuestionPair('pregunta32', ['pregunta32_detalle1', 'pregunta32_detalle2']);
+    setupQuestionPair('pregunta34', ['pregunta34_detalle']);
+    setupQuestionPair('pregunta37', ['pregunta37_detalle']);
 
-    const formControls = document.querySelectorAll('.form-control');
-    formControls.forEach((control, index) => {
-      setTimeout(() => {
-        control.classList.add('animated');
-      }, index * 300);
+    // Configurar dependencias anidadas
+    setupNestedCondition('pregunta21_kyc_terceros', ['pregunta21_detalle3', 'pregunta21_detalle4']);
+
+    // Verificar estado inicial
+    checkInitialState();
+});
+
+function setupQuestionPair(questionPrefix, fieldIds, showOnNo = false) {
+    const yesRadio = document.getElementById(`${questionPrefix}_si`);
+    const noRadio = document.getElementById(`${questionPrefix}_no`);
+    
+    if (yesRadio && noRadio) {
+        // Función para actualizar visibilidad
+        const updateVisibility = () => {
+            const showFields = showOnNo ? noRadio.checked : yesRadio.checked;
+            
+            fieldIds.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.style.display = showFields ? 'block' : 'none';
+                    
+                    // Manejar campos requeridos
+                    const inputs = field.querySelectorAll('input, textarea, select');
+                    inputs.forEach(input => {
+                        input.required = showFields;
+                        
+                        // Limpiar campos cuando se ocultan
+                        if (!showFields) {
+                            if (input.type === 'checkbox' || input.type === 'radio') {
+                                input.checked = false;
+                            } else if (input.type === 'select-one') {
+                                input.selectedIndex = 0;
+                            } else {
+                                input.value = '';
+                            }
+                        }
+                    });
+                }
+            });
+        };
+
+        // Agregar event listeners a ambos radios
+        yesRadio.addEventListener('change', updateVisibility);
+        noRadio.addEventListener('change', updateVisibility);
+        
+        // Actualizar visibilidad inicial
+        updateVisibility();
+    }
+}
+
+function setupNestedCondition(radioId, fieldIds) {
+    const radio = document.getElementById(radioId);
+    
+    if (radio) {
+        // Función para actualizar visibilidad
+        const updateVisibility = () => {
+            fieldIds.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.style.display = radio.checked ? 'block' : 'none';
+                    
+                    // Manejar campos requeridos
+                    const inputs = field.querySelectorAll('input, textarea, select');
+                    inputs.forEach(input => {
+                        input.required = radio.checked;
+                        
+                        // Limpiar campos cuando se ocultan
+                        if (!radio.checked) {
+                            if (input.type === 'checkbox' || input.type === 'radio') {
+                                input.checked = false;
+                            } else if (input.type === 'select-one') {
+                                input.selectedIndex = 0;
+                            } else {
+                                input.value = '';
+                            }
+                        }
+                    });
+                }
+            });
+        };
+
+        // Agregar event listener
+        radio.addEventListener('change', updateVisibility);
+        
+        // Actualizar visibilidad inicial
+        updateVisibility();
+    }
+}
+
+function checkInitialState() {
+    // Verificar todos los radios marcados por defecto y mostrar sus campos correspondientes
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        if (radio.checked) {
+            const questionPrefix = radio.id.replace(/_si|_no$/, '');
+            const fieldsToShow = document.querySelectorAll(`[id^="${questionPrefix}_detalle"]`);
+            
+            fieldsToShow.forEach(field => {
+                field.style.display = 'block';
+                const inputs = field.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    input.required = true;
+                });
+            });
+        }
     });
-
-    window.addEventListener('scroll', function() {
-      const navbar = document.querySelector('.navbar');
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
+    
+    // Verificar también las dependencias anidadas
+    const nestedRadios = ['pregunta21_kyc_terceros'];
+    nestedRadios.forEach(radioId => {
+        const radio = document.getElementById(radioId);
+        if (radio && radio.checked) {
+            const fieldsToShow = document.querySelectorAll(`[id^="${radioId.replace('_kyc_terceros', '')}_detalle"]`);
+            fieldsToShow.forEach(field => {
+                field.style.display = 'block';
+                const inputs = field.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    input.required = true;
+                });
+            });
+        }
     });
-  </script>
+}
+</script>
+
+
 </body>
 </html>
